@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using PopulationWars.Utilities;
-
 using static System.Drawing.Color;
 using static System.Math;
 
@@ -53,10 +53,9 @@ namespace PopulationWars
                         if (!(m == 0 && n == 0) && !(m == size.Item1 + 1 && n == size.Item2 + 1) &&
                             !(m == 0 && n == size.Item2 + 1) && !(m == size.Item1 + 1 && n == 0))
                         {
-                            panel.Controls.Add(new Label()
+                            panel.Controls.Add(new Label
                             {
-                                Text = (m == size.Item1 + 1 || n == size.Item2 + 1 ?
-                                    Min(m, n) : Max(m, n)).ToString(),
+                                Text = (m == size.Item1 + 1 || n == size.Item2 + 1 ? Min(m, n) : Max(m, n)).ToString(),
                                 ForeColor = Yellow,
                                 Font = new Font(Font, FontStyle.Bold)
                             });
@@ -67,6 +66,34 @@ namespace PopulationWars
                     m_map[n, m] = panel;
                 }
             }
+        }
+
+        public void ChangeTitle(int x, int y, Color? color, int? number)
+        {
+            Label current = GetFirstLabel(m_map[x, y]);
+            if (current == null)
+            {
+                current = new Label
+                {
+                    AutoSize = false,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Dock = DockStyle.Fill
+                };
+                m_map[x, y].Controls.Add(current);
+            }
+            if (color != null)
+            {
+                current.BackColor = (Color) color;
+            }
+            if (number != null)
+            {
+                current.Text = ((int) number).ToString();
+            }
+        }
+
+        private Label GetFirstLabel(Control parent)
+        {
+            return parent.Controls.OfType<Label>().Select(control => control).FirstOrDefault();
         }
     }
 }
