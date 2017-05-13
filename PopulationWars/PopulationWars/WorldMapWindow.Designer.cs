@@ -39,7 +39,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(380, 368);
             this.Name = "WorldMapWindow";
-            this.Text = "WorldMap";
+            this.Text = "World Map";
             this.ResumeLayout(false);
 
         }

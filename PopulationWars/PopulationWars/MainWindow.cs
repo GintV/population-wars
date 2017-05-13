@@ -1,65 +1,50 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using PopulationWars.Mechanics;
+
+using static PopulationWars.PlayerWindow.PlayerWindowMode;
 
 namespace PopulationWars
 {
     public partial class MainWindow : Form
     {
+        private Game m_game;
+
         private Panel[,] m_environment;
+        private WorldMapWindow m_worldMap;
 
         public MainWindow()
         {
             InitializeComponent();
+            GameToolStripEnabled(false);
         }
 
-        private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Form_Load();
-            new WorldMapWindow().Show();
-        }
+        private void GameToolStripEnabled(bool enabled) => gameToolStripMenuItem.Enabled = enabled;
 
-        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            new SettingsWindow().ShowDialog();
-        }
+        private void ShowWorldMap() => m_worldMap.Show();
 
-        private void Form_Load()
+        private void Form_Load() //TODO: put panels into one panel before adding to main control
         {
             const int tileSize = 30;
             const int gridSize = 10;
             var clr1 = Color.DarkGray;
             var clr2 = Color.White;
 
-            // initialize the "chess board"
             m_environment = new Panel[gridSize, gridSize];
 
-            // double for loop to handle all rows and columns
             for (var n = 0; n < gridSize; n++)
             {
                 for (var m = 0; m < gridSize; m++)
                 {
-                    // create new Panel control which will be one 
-                    // chess board tile
                     var newPanel = new Panel
                     {
                         Size = new Size(tileSize, tileSize),
                         Location = new Point(tileSize * n, tileSize * m)
                     };
 
-                    // add to Form's Controls so that they show up
-                    this.Controls.Add(newPanel);
+                    Controls.Add(newPanel);
 
-                    // add to our 2d array of panels for future use
-                    m_environment[n, m] = newPanel;
-
-                    // color the backgrounds
                     if (n % 2 == 0)
                         newPanel.BackColor = m % 2 != 0 ? clr1 : clr2;
                     else
@@ -67,5 +52,42 @@ namespace PopulationWars
                 }
             }
         }
+
+        private void addPlayerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var form = new PlayerWindow(AddPlayer))
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    m_game.AddPlayer(form.Player);
+                }
+            }
+        }
+
+        private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (m_game != null)
+            {
+                // TODO: dialog are u sure, all data will be lost etc
+                m_worldMap.Close();
+                m_worldMap.Dispose(); // this is needed as we override OnFormClosing()
+            }
+
+            //Form_Load();
+
+            using (var form = new SettingsWindow())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    m_game = new Game(form.Settings);
+                    m_worldMap = new WorldMapWindow(form.Settings);
+                    ShowWorldMap();
+                    GameToolStripEnabled(true);
+                }
+            }
+        }
+
+        private void showWorldMapToolStripMenuItem_Click(object sender, EventArgs e) =>
+            ShowWorldMap();
     }
 }

@@ -31,29 +31,18 @@ namespace PopulationWars
         /// </summary>
         private void InitializeComponent()
         {
-            this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addPlayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editPlayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showWorldMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveNationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // menuStrip
-            // 
-            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.aboutToolStripMenuItem});
-            this.menuStrip.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(806, 24);
-            this.menuStrip.TabIndex = 0;
-            this.menuStrip.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
@@ -61,7 +50,6 @@ namespace PopulationWars
             this.newGameToolStripMenuItem,
             this.gameToolStripMenuItem,
             this.saveNationToolStripMenuItem,
-            this.settingsToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -78,7 +66,8 @@ namespace PopulationWars
             // 
             this.gameToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addPlayerToolStripMenuItem,
-            this.editPlayerToolStripMenuItem});
+            this.editPlayerToolStripMenuItem,
+            this.showWorldMapToolStripMenuItem});
             this.gameToolStripMenuItem.Name = "gameToolStripMenuItem";
             this.gameToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.gameToolStripMenuItem.Text = "Game...";
@@ -86,27 +75,28 @@ namespace PopulationWars
             // addPlayerToolStripMenuItem
             // 
             this.addPlayerToolStripMenuItem.Name = "addPlayerToolStripMenuItem";
-            this.addPlayerToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.addPlayerToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.addPlayerToolStripMenuItem.Text = "Add Player...";
+            this.addPlayerToolStripMenuItem.Click += new System.EventHandler(this.addPlayerToolStripMenuItem_Click);
             // 
             // editPlayerToolStripMenuItem
             // 
             this.editPlayerToolStripMenuItem.Name = "editPlayerToolStripMenuItem";
-            this.editPlayerToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.editPlayerToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.editPlayerToolStripMenuItem.Text = "Edit Player...";
+            // 
+            // showWorldMapToolStripMenuItem
+            // 
+            this.showWorldMapToolStripMenuItem.Name = "showWorldMapToolStripMenuItem";
+            this.showWorldMapToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.showWorldMapToolStripMenuItem.Text = "Show World Map...";
+            this.showWorldMapToolStripMenuItem.Click += new System.EventHandler(this.showWorldMapToolStripMenuItem_Click);
             // 
             // saveNationToolStripMenuItem
             // 
             this.saveNationToolStripMenuItem.Name = "saveNationToolStripMenuItem";
             this.saveNationToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.saveNationToolStripMenuItem.Text = "Save Nation...";
-            // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
-            this.settingsToolStripMenuItem.Text = "Settings";
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -119,6 +109,17 @@ namespace PopulationWars
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.aboutToolStripMenuItem.Text = "About";
+            // 
+            // menuStrip
+            // 
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.aboutToolStripMenuItem});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(806, 24);
+            this.menuStrip.TabIndex = 0;
+            this.menuStrip.Text = "menuStrip1";
             // 
             // MainWindow
             // 
@@ -141,16 +142,16 @@ namespace PopulationWars
 
         #endregion
 
-        private MenuStrip menuStrip;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem newGameToolStripMenuItem;
         private ToolStripMenuItem gameToolStripMenuItem;
         private ToolStripMenuItem addPlayerToolStripMenuItem;
         private ToolStripMenuItem editPlayerToolStripMenuItem;
+        private ToolStripMenuItem showWorldMapToolStripMenuItem;
         private ToolStripMenuItem saveNationToolStripMenuItem;
         private ToolStripMenuItem exitToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem;
-        private ToolStripMenuItem settingsToolStripMenuItem;
+        private MenuStrip menuStrip;
     }
 }
 

@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using PopulationWars.Utilities;
 
+using static System.Drawing.Color;
+using static System.Math;
 
 namespace PopulationWars
 {
@@ -16,18 +12,25 @@ namespace PopulationWars
     {
         private Panel[,] m_map;
 
-        public WorldMapWindow()
+        public WorldMapWindow(Settings settings)
         {
             InitializeComponent();
-            LoadMap();
+            LoadMap(settings);
         }
 
-        private void LoadMap()
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            Hide();
+            e.Cancel = true;
+        }
+
+        private void LoadMap(Settings settings)
         {
             const int tileSize = 20;
-            Tuple<int, int> size = Settings.GameSettings.WorldSize;
-            var clr1 = Color.DarkGray;
-            var clr2 = Color.White;
+            Tuple<int, int> size = settings.WorldSize;
+            var clr1 = DarkGray;
+            var clr2 = White;
 
             m_map = new Panel[size.Item2 + 2, size.Item1 + 2];
 
@@ -39,12 +42,12 @@ namespace PopulationWars
                     {
                         Size = new Size(tileSize, tileSize),
                         Location = new Point(tileSize * n, tileSize * m),
-                        BackColor = (m + n) % 2 == 0 ? Color.WhiteSmoke : Color.White
+                        BackColor = (m + n) % 2 == 0 ? WhiteSmoke : White
                     };
 
                     if (m == 0 || m == size.Item1 + 1 || n == 0 || n == size.Item2 + 1)
                     {
-                        panel.BackColor = Color.Black;
+                        panel.BackColor = Black;
                         panel.BorderStyle = BorderStyle.None;
 
                         if (!(m == 0 && n == 0) && !(m == size.Item1 + 1 && n == size.Item2 + 1) &&
@@ -53,14 +56,14 @@ namespace PopulationWars
                             panel.Controls.Add(new Label()
                             {
                                 Text = (m == size.Item1 + 1 || n == size.Item2 + 1 ?
-                                    Math.Min(m, n) : Math.Max(m, n)).ToString(),
-                                ForeColor = Color.Yellow,
+                                    Min(m, n) : Max(m, n)).ToString(),
+                                ForeColor = Yellow,
                                 Font = new Font(Font, FontStyle.Bold)
                             });
                         }
                     }
 
-                    this.Controls.Add(panel);
+                    Controls.Add(panel);
                     m_map[n, m] = panel;
                 }
             }

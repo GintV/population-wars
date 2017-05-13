@@ -1,24 +1,20 @@
-﻿using PopulationWars.Map;
+﻿using System.Collections.Generic;
+using PopulationWars.Map;
 using PopulationWars.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PopulationWars.Mechanics
 {
-    class Game
+    public class Game
     {
         public List<Player> Players { get; set; }
         public World Map { get; set; }
 
         public MovesController MovesController { get; set; }
 
-        public Game()
+        public Game(Settings settings)
         {
             Players = new List<Player>();
-            Map = new World();
+            Map = new World(settings);
             MovesController = new MovesController();
         }
 

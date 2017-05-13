@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PopulationWars.Map
+﻿namespace PopulationWars.Map
 {
-    class Environment
+    public class Environment
     {
         private Tile[][] Map;
 

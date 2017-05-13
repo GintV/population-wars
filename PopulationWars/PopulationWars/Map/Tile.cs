@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PopulationWars.Map
 {
-    class Tile
+    public class Tile
     {
         public readonly Tuple<int, int> Position;
         public Colony OwnedBy { get; set; }

@@ -1,26 +1,24 @@
-﻿using PopulationWars.Components;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PopulationWars.Components;
 
 namespace PopulationWars.Mechanics
 {
-    class Player
+    public class Player
     {
         public string Name { get; set; }
+        public bool IsAgent { get; set; }
         public Nation Nation { get; set; }
         public List<Colony> Colonies { get; set; }
-
         public Color Color { get; set; }
 
-        public Player(string name, Nation nation = null, string nationName = null)
+        public Player(string name, bool isAgent, Nation nation, Color color)
         {
             Name = name;
-            Nation = nation ?? new Nation(nationName);
+            IsAgent = isAgent;
+            Nation = nation;
             Colonies = new List<Colony>();
+            Color = color;
         }
     }
 }

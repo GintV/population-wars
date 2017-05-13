@@ -51,11 +51,11 @@
             // saveButton
             // 
             this.saveButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.saveButton.Location = new System.Drawing.Point(66, 163);
+            this.saveButton.Location = new System.Drawing.Point(60, 163);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(94, 25);
+            this.saveButton.Size = new System.Drawing.Size(100, 25);
             this.saveButton.TabIndex = 0;
-            this.saveButton.Text = "Save";
+            this.saveButton.Text = "Ok";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
@@ -64,7 +64,7 @@
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButton.Location = new System.Drawing.Point(221, 163);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(94, 25);
+            this.cancelButton.Size = new System.Drawing.Size(100, 25);
             this.cancelButton.TabIndex = 1;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
@@ -166,7 +166,7 @@
             this.Controls.Add(this.saveButton);
             this.Name = "SettingsWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "SettingsWindow";
+            this.Text = "Choose game settings";
             ((System.ComponentModel.ISupportInitialize)(this.colonyScopeNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gameDurationMinNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gameDurationMaxNumericUpDown)).EndInit();

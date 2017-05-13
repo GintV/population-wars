@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PopulationWars.Utilities
+﻿namespace PopulationWars.Utilities
 {
-    class Constants
+    public class Constants // TODO: group in smaller groups
     {
         internal const int DefaultColonyScope = 3;
         internal const int DefaultMaximumGameDuration = 150;
@@ -31,5 +25,8 @@ namespace PopulationWars.Utilities
         internal const int MaximumWorldHeight = 100;
 
         internal const double MaximumPopulationGrowthRate = 5.0;
+
+        internal const string Agent = "Agent";
+        internal const string Human = "Human";
     }
 }
