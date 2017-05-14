@@ -24,6 +24,6 @@ namespace PopulationWars.Mechanics
         }
 
         public override string ToString() =>
-            $"Player: {Name} | Type: {(IsAgent ? Agent : Human)} | Nation: {Nation.Name}"; 
+            $"{Name} ({(IsAgent ? Agent : Human)}), {Nation}"; 
     }
 }

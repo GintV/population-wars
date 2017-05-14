@@ -41,6 +41,7 @@ namespace PopulationWars
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.deletePlayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,6 +68,7 @@ namespace PopulationWars
             this.gameToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addPlayerToolStripMenuItem,
             this.editPlayerToolStripMenuItem,
+            this.deletePlayerToolStripMenuItem,
             this.showWorldMapToolStripMenuItem});
             this.gameToolStripMenuItem.Name = "gameToolStripMenuItem";
             this.gameToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
@@ -122,6 +124,13 @@ namespace PopulationWars
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
+            // deletePlayerToolStripMenuItem
+            // 
+            this.deletePlayerToolStripMenuItem.Name = "deletePlayerToolStripMenuItem";
+            this.deletePlayerToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.deletePlayerToolStripMenuItem.Text = "Delete Player...";
+            this.deletePlayerToolStripMenuItem.Click += new System.EventHandler(this.deletePlayerToolStripMenuItem_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -153,6 +162,7 @@ namespace PopulationWars
         private ToolStripMenuItem exitToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem;
         private MenuStrip menuStrip;
+        private ToolStripMenuItem deletePlayerToolStripMenuItem;
     }
 }
 

@@ -23,8 +23,22 @@ namespace PopulationWars
             m_action = action;
         }
 
+        private void DeletePlayer(Player player)
+        {
+            var result = MessageBox.Show($"Are you sure you want to delete: {player}?", "Warning",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (result == DialogResult.No)
+            {
+                DialogResult = DialogResult.None;
+                return;
+            }
+
+            m_players.Remove(player);
+        }
+
         private void EditPlayer(Player player) =>
-            new PlayerWindow(GameAction.EditPlayer, player).ShowDialog();
+            new PlayerWindow(GameAction.EditPlayer, m_players, player).ShowDialog();
 
         private void LoadButtonAndWindowName(GameAction action)
         {
@@ -47,7 +61,7 @@ namespace PopulationWars
         {
             if (playerListBox.SelectedItem == null)
             {
-                MessageBox.Show("No item selected", "Warning",
+                MessageBox.Show("No item selected.", "Warning",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 DialogResult = DialogResult.None;
                 return;
@@ -59,7 +73,7 @@ namespace PopulationWars
             if (m_action == GameAction.EditPlayer)
                 EditPlayer(player);
             else
-                m_players.Remove(player);
+                DeletePlayer(player);
         }
     }
 }

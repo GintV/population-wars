@@ -62,7 +62,7 @@ namespace PopulationWars
 
             if (gameDurationMax < gameDurationMin)
             {
-                MessageBox.Show("Maximum game duration cannot be less than minimum game duration",
+                MessageBox.Show("Maximum game duration cannot be less than minimum game duration.",
                     "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 DialogResult = DialogResult.None;
                 return;

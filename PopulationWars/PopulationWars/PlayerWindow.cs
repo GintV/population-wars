@@ -5,6 +5,8 @@ using PopulationWars.Mechanics;
 
 using static PopulationWars.Utilities.Constants;
 using static PopulationWars.Utilities.Constants.GameAction;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PopulationWars
 {
@@ -12,8 +14,9 @@ namespace PopulationWars
     {
         public Player Player { get; set; }
         private GameAction m_action;
+        private List<Player> m_players;
 
-        public PlayerWindow(GameAction action, Player player = null)
+        public PlayerWindow(GameAction action, List<Player> players, Player player = null)
         {
             InitializeComponent();
             LoadWindowName(action);
@@ -27,6 +30,7 @@ namespace PopulationWars
                 PreselectListBoxes();
 
             m_action = action;
+            m_players = players;
         }
 
         private void LoadPlayer(Player player)
@@ -60,6 +64,7 @@ namespace PopulationWars
 
         private void saveButton_Click(object sender, EventArgs e)
         {
+            //TODO: check if name does not exist
             var playerName = playerNameTextBox.Text;
             var playerType = typeListBox.SelectedItem.ToString() == Agent ? true : false;
             var color = colorButton.BackColor;
@@ -71,16 +76,25 @@ namespace PopulationWars
             // TODO: after implementing
             // serialization update null value
 
+            var playerNameExists = m_players.Where(p => p.Name == playerName).Any();
             if (playerName == "")
             {
-                MessageBox.Show("Player name cannot be empty string", "Warning",
+                MessageBox.Show("Player name cannot be empty string.", "Warning",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                DialogResult = DialogResult.None;
+                return;
+            }
+            else if (m_action == AddPlayer && playerNameExists || m_action == EditPlayer &&
+                Player.Name != playerName && playerNameExists)
+            {
+                MessageBox.Show("Player name already exists.", "Warning",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 DialogResult = DialogResult.None;
                 return;
             }
             else if (nation?.Name == "") // remove Elvis operator after implemeting serialization
             {
-                MessageBox.Show("Nation name cannot be an empty string", "Warning",
+                MessageBox.Show("Nation name cannot be an empty string.", "Warning",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 DialogResult = DialogResult.None;
                 return;

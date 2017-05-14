@@ -55,12 +55,20 @@ namespace PopulationWars
 
         private void addPlayerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var form = new PlayerWindow(AddPlayer))
+            using (var form = new PlayerWindow(AddPlayer, m_game.Players))
             {
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     m_game.AddPlayer(form.Player);
                 }
+            }
+        }
+
+        private void deletePlayerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var form = new PlayerListWindow(m_game.Players, DeletePlayer))
+            {
+                form.ShowDialog();
             }
         }
 
