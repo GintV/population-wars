@@ -76,7 +76,13 @@ namespace PopulationWars
         {
             if (m_game != null)
             {
-                // TODO: dialog are u sure, all data will be lost etc
+                var dialogResult = MessageBox.Show("Are you sure you want to start a new game? " +
+                    "All data will be lost.", "Warning", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+                if (dialogResult == DialogResult.No)
+                    return;
+
+                GameToolStripEnabled(false);
                 m_worldMap.Close();
                 m_worldMap.Dispose(); // this is needed as we override OnFormClosing()
             }
