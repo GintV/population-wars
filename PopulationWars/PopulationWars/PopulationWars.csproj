@@ -73,6 +73,12 @@
     <Compile Include="Mechanics\MovesController.cs" />
     <Compile Include="Mechanics\Player.cs" />
     <Compile Include="Mechanics\TrainSet.cs" />
+    <Compile Include="PlayerListWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlayerListWindow.Designer.cs">
+      <DependentUpon>PlayerListWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="PlayerWindow.cs">
       <SubType>Form</SubType>
     </Compile>

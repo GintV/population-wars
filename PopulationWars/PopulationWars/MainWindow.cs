@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using PopulationWars.Mechanics;
 
-using static PopulationWars.PlayerWindow.PlayerWindowMode;
+using static PopulationWars.Utilities.Constants.GameAction;
 
 namespace PopulationWars
 {
@@ -61,6 +61,14 @@ namespace PopulationWars
                 {
                     m_game.AddPlayer(form.Player);
                 }
+            }
+        }
+
+        private void editPlayerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var form = new PlayerListWindow(m_game.Players, EditPlayer))
+            {
+                form.ShowDialog();
             }
         }
 

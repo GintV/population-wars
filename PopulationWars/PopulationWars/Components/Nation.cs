@@ -10,5 +10,7 @@
             Name = name;
             Government = government ?? new Government();
         }
+
+        public override string ToString() => Name;
     }
 }

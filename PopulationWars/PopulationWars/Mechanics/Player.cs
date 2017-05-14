@@ -2,6 +2,8 @@
 using System.Drawing;
 using PopulationWars.Components;
 
+using static PopulationWars.Utilities.Constants;
+
 namespace PopulationWars.Mechanics
 {
     public class Player
@@ -20,5 +22,8 @@ namespace PopulationWars.Mechanics
             Colonies = new List<Colony>();
             Color = color;
         }
+
+        public override string ToString() =>
+            $"Player: {Name} | Type: {(IsAgent ? Agent : Human)} | Nation: {Nation.Name}"; 
     }
 }

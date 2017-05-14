@@ -58,7 +58,7 @@ namespace PopulationWars
             // newGameToolStripMenuItem
             // 
             this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
-            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newGameToolStripMenuItem.Text = "New Game...";
             this.newGameToolStripMenuItem.Click += new System.EventHandler(this.newGameToolStripMenuItem_Click);
             // 
@@ -69,7 +69,7 @@ namespace PopulationWars
             this.editPlayerToolStripMenuItem,
             this.showWorldMapToolStripMenuItem});
             this.gameToolStripMenuItem.Name = "gameToolStripMenuItem";
-            this.gameToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.gameToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.gameToolStripMenuItem.Text = "Game...";
             // 
             // addPlayerToolStripMenuItem
@@ -84,6 +84,7 @@ namespace PopulationWars
             this.editPlayerToolStripMenuItem.Name = "editPlayerToolStripMenuItem";
             this.editPlayerToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.editPlayerToolStripMenuItem.Text = "Edit Player...";
+            this.editPlayerToolStripMenuItem.Click += new System.EventHandler(this.editPlayerToolStripMenuItem_Click);
             // 
             // showWorldMapToolStripMenuItem
             // 
@@ -95,13 +96,13 @@ namespace PopulationWars
             // saveNationToolStripMenuItem
             // 
             this.saveNationToolStripMenuItem.Name = "saveNationToolStripMenuItem";
-            this.saveNationToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.saveNationToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveNationToolStripMenuItem.Text = "Save Nation...";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // aboutToolStripMenuItem

@@ -4,45 +4,54 @@ using PopulationWars.Components;
 using PopulationWars.Mechanics;
 
 using static PopulationWars.Utilities.Constants;
+using static PopulationWars.Utilities.Constants.GameAction;
 
 namespace PopulationWars
 {
     public partial class PlayerWindow : Form
     {
         public Player Player { get; set; }
+        private GameAction m_action;
 
-        public enum PlayerWindowMode
-        {
-            AddPlayer,
-            EditPlayer
-        }
-
-        public PlayerWindow(PlayerWindowMode mode, Player player = null)
+        public PlayerWindow(GameAction action, Player player = null)
         {
             InitializeComponent();
-            LoadWindowName(mode);
+            LoadWindowName(action);
 
-            if (mode == PlayerWindowMode.AddPlayer)
-                PreselectTypeListBox();
-            else
+            if (action == EditPlayer)
+            {
+                Player = player;
                 LoadPlayer(player);
+            }
+            else
+                PreselectListBoxes();
+
+            m_action = action;
         }
-
-        private void LoadWindowName(PlayerWindowMode mode) =>
-            Text = mode == PlayerWindowMode.AddPlayer ? "Add Player" : "Edit Player";
-
-        private void PreselectTypeListBox() => typeListBox.SelectedIndex = 0;
 
         private void LoadPlayer(Player player)
         {
-            // TODO: while loading player, add dummy nation to nation list to represent current
-            // nation
+            playerNameTextBox.Text = player.Name;
+            typeListBox.SelectedIndex = player.IsAgent ? 0 : 1;
+            colorButton.BackColor = player.Color;
+            nationNameTextBox.Text = player.Nation.Name;
+            nationListBox.Items.Add(player.Nation);
+            nationListBox.SelectedIndex = 1;
         }
+
+        private void LoadWindowName(GameAction action) =>
+            Text = action == AddPlayer ? "Add Player" : "Edit Player";
+
+        private void PreselectListBoxes() =>
+            typeListBox.SelectedIndex = nationListBox.SelectedIndex = 0;
 
         private void colorButton_Click(object sender, EventArgs e)
         {
-            var colorDialog = new ColorDialog();
-            colorDialog.Color = colorButton.BackColor;
+            var colorDialog = new ColorDialog()
+            {
+                Color = colorButton.BackColor
+            };
+
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
                 colorButton.BackColor = colorDialog.Color;
@@ -54,9 +63,13 @@ namespace PopulationWars
             var playerName = playerNameTextBox.Text;
             var playerType = typeListBox.SelectedItem.ToString() == Agent ? true : false;
             var color = colorButton.BackColor;
-            var nation = existingNationRadioButton.Checked ? null : //TODO: after implementing
-                                                                // serialization update null value
-                new Nation(nationNameTextBox.Text);
+            var nationName = nationNameTextBox.Text;
+            var nation = nationListBox.SelectedIndex == 0 ?
+                new Nation(nationName) :
+                (m_action == EditPlayer && nationListBox.SelectedIndex == 1) ?
+                Player.Nation : null;
+            // TODO: after implementing
+            // serialization update null value
 
             if (playerName == "")
             {
@@ -73,13 +86,16 @@ namespace PopulationWars
                 return;
             }
 
-            Player = new Player(playerName, playerType, nation, color);
-        }
-
-        private void newNationRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            nationListBox.Enabled = !nationListBox.Enabled;
-            nationNameTextBox.Enabled = !nationNameTextBox.Enabled;
+            if (m_action == EditPlayer)
+            {
+                Player.Name = playerName;
+                Player.IsAgent = playerType;
+                Player.Color = color;
+                Player.Nation.Name = nationName;
+                Player.Nation = nation;
+            }
+            else
+                Player = new Player(playerName, playerType, nation, color);
         }
     }
 }

@@ -17,6 +17,19 @@ namespace PopulationWars
             LoadSettings();
         }
 
+        private void LoadSettings()
+        {
+            var gameDuration = Settings.LastSettings.GameDuration;
+            var worldSize = Settings.LastSettings.WorldSize;
+
+            colonyScopeNumericUpDown.Value = Settings.LastSettings.ColonyScope;
+            gameDurationMinNumericUpDown.Value = gameDuration.Item1;
+            gameDurationMaxNumericUpDown.Value = gameDuration.Item2;
+            growthRateNumericUpDown.Value = (int)Settings.LastSettings.PopulationGrowthRate;
+            worldWidthNmericUpDown.Value = worldSize.Item1;
+            worldHeightNumericUpDown.Value = worldSize.Item2;
+        }
+
         private void SetMinMaxValues()
         {
             colonyScopeNumericUpDown.Minimum = MinimumColonyScope;
@@ -37,20 +50,6 @@ namespace PopulationWars
             worldHeightNumericUpDown.Minimum = MinimumWorldHeight;
             worldHeightNumericUpDown.Maximum = MaximumWorldHeight;
         }
-
-        private void LoadSettings()
-        {
-            var gameDuration = Settings.LastSettings.GameDuration;
-            var worldSize = Settings.LastSettings.WorldSize;
-
-            colonyScopeNumericUpDown.Value = Settings.LastSettings.ColonyScope;
-            gameDurationMinNumericUpDown.Value = gameDuration.Item1;
-            gameDurationMaxNumericUpDown.Value = gameDuration.Item2;
-            growthRateNumericUpDown.Value = (int)Settings.LastSettings.PopulationGrowthRate;
-            worldWidthNmericUpDown.Value = worldSize.Item1;
-            worldHeightNumericUpDown.Value = worldSize.Item2;
-        }
-
 
         private void saveButton_Click(object sender, EventArgs e)
         {

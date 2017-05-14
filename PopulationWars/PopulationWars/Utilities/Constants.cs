@@ -2,6 +2,13 @@
 {
     public class Constants // TODO: group in smaller groups
     {
+        public enum GameAction
+        {
+            AddPlayer, 
+            DeletePlayer, 
+            EditPlayer
+        }
+
         internal const int DefaultColonyScope = 3;
         internal const int DefaultMaximumGameDuration = 150;
         internal const int DefaultMinimumGameDuration = 100;

@@ -33,8 +33,6 @@
             this.playerNameTextBox = new System.Windows.Forms.TextBox();
             this.typeListBox = new System.Windows.Forms.ListBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.newNationRadioButton = new System.Windows.Forms.RadioButton();
-            this.existingNationRadioButton = new System.Windows.Forms.RadioButton();
             this.nationListBox = new System.Windows.Forms.ListBox();
             this.nationNameTextBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -90,41 +88,19 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "Color";
             // 
-            // newNationRadioButton
-            // 
-            this.newNationRadioButton.AutoSize = true;
-            this.newNationRadioButton.Checked = true;
-            this.newNationRadioButton.Location = new System.Drawing.Point(6, 19);
-            this.newNationRadioButton.Name = "newNationRadioButton";
-            this.newNationRadioButton.Size = new System.Drawing.Size(79, 17);
-            this.newNationRadioButton.TabIndex = 6;
-            this.newNationRadioButton.TabStop = true;
-            this.newNationRadioButton.Text = "New nation";
-            this.newNationRadioButton.UseVisualStyleBackColor = true;
-            this.newNationRadioButton.CheckedChanged += new System.EventHandler(this.newNationRadioButton_CheckedChanged);
-            // 
-            // existingNationRadioButton
-            // 
-            this.existingNationRadioButton.AutoSize = true;
-            this.existingNationRadioButton.Location = new System.Drawing.Point(6, 45);
-            this.existingNationRadioButton.Name = "existingNationRadioButton";
-            this.existingNationRadioButton.Size = new System.Drawing.Size(93, 17);
-            this.existingNationRadioButton.TabIndex = 7;
-            this.existingNationRadioButton.Text = "Existing nation";
-            this.existingNationRadioButton.UseVisualStyleBackColor = true;
-            // 
             // nationListBox
             // 
-            this.nationListBox.Enabled = false;
             this.nationListBox.FormattingEnabled = true;
-            this.nationListBox.Location = new System.Drawing.Point(161, 186);
+            this.nationListBox.Items.AddRange(new object[] {
+            "New Nation..."});
+            this.nationListBox.Location = new System.Drawing.Point(9, 35);
             this.nationListBox.Name = "nationListBox";
             this.nationListBox.Size = new System.Drawing.Size(100, 69);
             this.nationListBox.TabIndex = 9;
             // 
             // nationNameTextBox
             // 
-            this.nationNameTextBox.Location = new System.Drawing.Point(161, 160);
+            this.nationNameTextBox.Location = new System.Drawing.Point(118, 35);
             this.nationNameTextBox.Name = "nationNameTextBox";
             this.nationNameTextBox.Size = new System.Drawing.Size(100, 20);
             this.nationNameTextBox.TabIndex = 10;
@@ -132,11 +108,11 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(174, 142);
+            this.label5.Location = new System.Drawing.Point(113, 16);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(67, 13);
+            this.label5.Size = new System.Drawing.Size(108, 13);
             this.label5.TabIndex = 11;
-            this.label5.Text = "Nation name";
+            this.label5.Text = "Nation name (oponal)";
             // 
             // colorButton
             // 
@@ -151,7 +127,7 @@
             // saveButton
             // 
             this.saveButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.saveButton.Location = new System.Drawing.Point(46, 285);
+            this.saveButton.Location = new System.Drawing.Point(34, 285);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(100, 25);
             this.saveButton.TabIndex = 13;
@@ -162,7 +138,7 @@
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(188, 285);
+            this.cancelButton.Location = new System.Drawing.Point(179, 285);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(100, 25);
             this.cancelButton.TabIndex = 14;
@@ -171,11 +147,12 @@
             // 
             // nationGroupBox
             // 
-            this.nationGroupBox.Controls.Add(this.existingNationRadioButton);
-            this.nationGroupBox.Controls.Add(this.newNationRadioButton);
+            this.nationGroupBox.Controls.Add(this.nationListBox);
+            this.nationGroupBox.Controls.Add(this.nationNameTextBox);
+            this.nationGroupBox.Controls.Add(this.label5);
             this.nationGroupBox.Location = new System.Drawing.Point(43, 142);
             this.nationGroupBox.Name = "nationGroupBox";
-            this.nationGroupBox.Size = new System.Drawing.Size(103, 114);
+            this.nationGroupBox.Size = new System.Drawing.Size(226, 125);
             this.nationGroupBox.TabIndex = 15;
             this.nationGroupBox.TabStop = false;
             this.nationGroupBox.Text = "Nation";
@@ -184,14 +161,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(330, 325);
+            this.ClientSize = new System.Drawing.Size(313, 323);
             this.Controls.Add(this.nationGroupBox);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.colorButton);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.nationNameTextBox);
-            this.Controls.Add(this.nationListBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.typeListBox);
             this.Controls.Add(this.playerNameTextBox);
@@ -213,8 +187,6 @@
         private System.Windows.Forms.TextBox playerNameTextBox;
         private System.Windows.Forms.ListBox typeListBox;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.RadioButton newNationRadioButton;
-        private System.Windows.Forms.RadioButton existingNationRadioButton;
         private System.Windows.Forms.ListBox nationListBox;
         private System.Windows.Forms.TextBox nationNameTextBox;
         private System.Windows.Forms.Label label5;
