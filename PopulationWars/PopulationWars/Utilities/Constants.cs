@@ -35,5 +35,8 @@
 
         internal const string Agent = "Agent";
         internal const string Human = "Human";
+
+        internal const string AgentsDataDirName = "Agents";
+        internal const string AgentsNamespace = "PopulationWars.Agents";
     }
 }

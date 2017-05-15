@@ -26,7 +26,7 @@ namespace PopulationWars
             e.Cancel = true;
         }
 
-        public void ChangeTitle(int x, int y, Color? color, int? number)
+        public void ChangeTile(int x, int y, Color? color, int? number)
         {
             Label current = GetFirstLabel(m_map[x, y]);
             if (current == null)
@@ -51,7 +51,7 @@ namespace PopulationWars
 
         private Label GetFirstLabel(Control parent)
         {
-            return parent.Controls.OfType<Label>().Select(control => control).FirstOrDefault();
+            return parent.Controls.OfType<Label>().FirstOrDefault();
         }
 
         private void LoadMap(Settings settings)

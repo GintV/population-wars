@@ -3,12 +3,12 @@
     public class Nation
     {
         public string Name { get; set; }
-        public Government Government { get; set; }
+        public IGovernment Government { get; set; }
 
-        public Nation(string name, Government government = null)
+        public Nation(string name, IGovernment government)
         {
             Name = name;
-            Government = government ?? new Government();
+            Government = government;
         }
 
         public override string ToString() => Name;

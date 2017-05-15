@@ -2,13 +2,13 @@
 
 namespace PopulationWars.Components
 {
-    public class Desicion
+    public class Decision
     {
         public bool IsLeaving { get; }
         public Direction Direction { get; }
         public double? PopulationToMove { get; }
 
-        public Desicion(bool isLeaving, Direction direction = None,
+        public Decision(bool isLeaving, Direction direction = None,
             double? populationToMove = null)
         {
             IsLeaving = isLeaving;

@@ -63,11 +63,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Colony.cs" />
-    <Compile Include="Components\Desicion.cs" />
+    <Compile Include="Components\Decision.cs" />
     <Compile Include="Components\Direction.cs" />
+    <Compile Include="Components\IAgent.cs" />
+    <Compile Include="Components\RealPlayer.cs" />
+    <Compile Include="Agents\SampleAgent.cs" />
     <Compile Include="Components\Situation.cs" />
+    <Compile Include="CreateAgentDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateAgentDialog.Designer.cs">
+      <DependentUpon>CreateAgentDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Mechanics\Data.cs" />
-    <Compile Include="Components\Government.cs" />
+    <Compile Include="Components\IGovernment.cs" />
     <Compile Include="Mechanics\Game.cs" />
     <Compile Include="Map\Environment.cs" />
     <Compile Include="Mechanics\MovesController.cs" />

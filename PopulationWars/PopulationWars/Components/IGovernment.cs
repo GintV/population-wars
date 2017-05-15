@@ -1,27 +1,17 @@
-﻿using System;
-
-namespace PopulationWars.Components
+﻿namespace PopulationWars.Components
 {
-    public class Government
+    /*
+     * Interface for entities that can make moves in games
+     */
+    public interface IGovernment
     {
-        public int MyProperty { get; set; }
-        public int MyProperty2 { get; set; }
-        public int MyProperty3 { get; set; }
-        // .
-        // .
-        // .
-
-        public Government()
-        {
-
-        }
-
+        /*
         public void Train()
         {
             // TODO: implement
         }
 
-        public Desicion MakeDesicion(Situation situation)
+        public Decision MakeDesicion(Situation situation)
         {
             // TODO: implement
 
@@ -29,5 +19,7 @@ namespace PopulationWars.Components
             return new Desicion(random.NextDouble() > 0.5 ? true : false,
                 (Direction)((((int)(random.NextDouble() * 100) % 9)) + 1), random.NextDouble());
         }
+        */
+        Decision MakeDecision(Situation situation);
     }
 }
