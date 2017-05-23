@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace PopulationWars
 {
+    [Obsolete]
     public partial class CreateAgentDialog : Form
     {
         public CreateAgentDialog()

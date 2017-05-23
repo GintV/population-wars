@@ -1,5 +1,9 @@
-﻿namespace PopulationWars.Components
+﻿using PopulationWars.Components.Governments;
+using System;
+
+namespace PopulationWars.Components
 {
+    [Serializable]
     public class Nation
     {
         public string Name { get; set; }
@@ -11,6 +15,6 @@
             Government = government;
         }
 
-        public override string ToString() => Name;
+        public override string ToString() => $"{Name} ({Government})";
     }
 }

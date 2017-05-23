@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using PopulationWars.Components;
+using PopulationWars.Components.Governments;
 using PopulationWars.Mechanics;
 
 using static PopulationWars.Utilities.Constants;
 using static PopulationWars.Utilities.Constants.GameAction;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+
 
 namespace PopulationWars
 {
@@ -16,18 +18,24 @@ namespace PopulationWars
         public Player Player { get; set; }
         private GameAction m_action;
         private List<Player> m_players;
+        private List<Nation> m_nations;
 
-        public PlayerWindow(GameAction action, List<Player> players, Player player = null)
+        public PlayerWindow(GameAction action, List<Player> players, List<Nation> nations,
+            Player player = null)
         {
+            m_action = action; // this needs to be prior to InitializeComponent() due to 
+                               // ListBox.SelectedIndexChanged event listener
             InitializeComponent();
             LoadWindowName(action);
 
-            var agentDataDir = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + AgentsDataDirName;
+            /*var agentDataDir = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar +
+                AgentsDataDirName;
             Directory.CreateDirectory(agentDataDir);
             foreach (var enumerateDirectory in Directory.EnumerateDirectories(agentDataDir))
             {
-                agentsListBox.Items.Add(enumerateDirectory.Substring(enumerateDirectory.LastIndexOf(Path.DirectorySeparatorChar) + 1));
-            }
+                typeListBox.Items.Add(enumerateDirectory.
+                    Substring(enumerateDirectory.LastIndexOf(Path.DirectorySeparatorChar) + 1));
+            }*/
 
             if (action == EditPlayer)
             {
@@ -37,38 +45,40 @@ namespace PopulationWars
             else
                 PreselectListBoxes();
 
-            m_action = action;
+            m_nations = nations;
             m_players = players;
+
+            LoadNations(m_nations);
         }
+
+        private void LoadNations(List<Nation> m_nations) =>
+            nationListBox.Items.AddRange(m_nations.ToArray());
 
         private void LoadPlayer(Player player)
         {
             playerNameTextBox.Text = player.Name;
+            typeListBox.SelectedIndex = player.IsAgent ? 0 : 1;
             colorButton.BackColor = player.Color;
             nationNameTextBox.Text = player.Nation.Name;
             nationListBox.Items.Add(player.Nation);
             nationListBox.SelectedIndex = 1;
-            agentRadioButton.Checked = player.IsAgent;
-            humanRadioButton.Checked = !player.IsAgent;
-            if (!player.IsAgent) return;
+
+            /*if (!player.IsAgent) return;
             var name = Player.Nation.Government.GetType().Name;
-            foreach (var item in agentsListBox.Items)
+            foreach (var item in typeListBox.Items)
             {
                 if (name.Equals(item.ToString()))
                 {
-                    agentsListBox.SelectedItem = item;
+                    typeListBox.SelectedItem = item;
                 }
-            }
+            }*/
         }
 
         private void LoadWindowName(GameAction action) =>
             Text = action == AddPlayer ? "Add Player" : "Edit Player";
 
-        private void PreselectListBoxes()
-        {
-            humanRadioButton.Checked = true;
-            nationListBox.SelectedIndex = 0;
-        }
+        private void PreselectListBoxes() =>
+            typeListBox.SelectedIndex = nationListBox.SelectedIndex = 0;
 
         private void colorButton_Click(object sender, EventArgs e)
         {
@@ -85,16 +95,17 @@ namespace PopulationWars
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            //TODO: check if name does not exist
             var playerName = playerNameTextBox.Text;
-            var playerType = agentRadioButton.Checked;
+            var playerType = typeListBox.SelectedItem.ToString() == Agent ? true : false;
             var color = colorButton.BackColor;
             var nationName = nationNameTextBox.Text;
-            IGovernment gov;
+
+            /*IGovernment gov;
             if (playerType)
             {
-                var className = agentsListBox.SelectedItem.ToString();
-                var agent = (IAgent)System.Reflection.Assembly.GetExecutingAssembly().CreateInstance(AgentsNamespace + "." + className);
+                var className = typeListBox.SelectedItem.ToString();
+                var agent = (IAgent)System.Reflection.Assembly.GetExecutingAssembly().
+                    CreateInstance(AgentsNamespace + "." + className);
                 if (agent == null)
                 {
                     MessageBox.Show("Agent not found.", "Warning",
@@ -102,7 +113,8 @@ namespace PopulationWars
                     DialogResult = DialogResult.None;
                     return;
                 }
-                var agentDataPath = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + AgentsDataDirName + Path.DirectorySeparatorChar + className;
+                var agentDataPath = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar +
+                    AgentsDataDirName + Path.DirectorySeparatorChar + className;
                 Directory.CreateDirectory(agentDataPath);
                 agent.SetDataPath(agentDataPath);
                 agent.LoadData();   // TODO: Load async if GUI lags
@@ -111,15 +123,20 @@ namespace PopulationWars
             else
             {
                 gov = new RealPlayer();
-            }
-            var nation = nationListBox.SelectedIndex == 0 ?
-                new Nation(nationName, gov) :
-                (m_action == EditPlayer && nationListBox.SelectedIndex == 1) ?
-                Player.Nation : null;
-            // TODO: after implementing
-            // serialization update null value
+            }*/
 
+            var nation = nationListBox.SelectedIndex == 0 ?
+                new Nation(nationName, new Democracy()) :
+                (m_action == EditPlayer && nationListBox.SelectedIndex == 1) ?
+                Player.Nation : new Nation(nationName, m_nations.Where(n => n.ToString() ==
+                nationListBox.SelectedItem.ToString()).First().Government);
+            
             var playerNameExists = m_players.Where(p => p.Name == playerName).Any();
+            var nationNameExists = m_action == AddPlayer ?
+                m_nations.Where(n => n.Name == nationName).Any() :
+                m_nations.Where(n => n.Name == nationName && Player.Nation.Name != nationName).
+                Any();
+
             if (playerName == "")
             {
                 MessageBox.Show("Player name cannot be empty string.", "Warning",
@@ -135,9 +152,16 @@ namespace PopulationWars
                 DialogResult = DialogResult.None;
                 return;
             }
-            else if (nation?.Name == "") // remove Elvis operator after implemeting serialization
+            else if (nation.Name == "")
             {
                 MessageBox.Show("Nation name cannot be an empty string.", "Warning",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                DialogResult = DialogResult.None;
+                return;
+            }
+            else if (nationNameExists)
+            {
+                MessageBox.Show("Nation name already exists.", "Warning",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 DialogResult = DialogResult.None;
                 return;
@@ -150,26 +174,18 @@ namespace PopulationWars
                 Player.Color = color;
                 Player.Nation.Name = nationName;
                 Player.Nation = nation;
+
+                if (nationListBox.SelectedIndex != 1)
+                    m_nations.Add(nation);
             }
             else
+            {
                 Player = new Player(playerName, playerType, nation, color);
+                m_nations.Add(nation);
+            }
         }
 
-        private void humanRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            agentsListBox.Enabled = false;
-            addAgentButton.Enabled = false;
-        }
-
-        private void agentRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            agentsListBox.Enabled = true;
-            addAgentButton.Enabled = true;
-            if (agentsListBox.SelectedItem == null && agentsListBox.Items.Count > 0)
-                agentsListBox.SelectedIndex = 0;
-        }
-
-        private void addAgentButton_Click(object sender, EventArgs e)
+        /*private void addAgentButton_Click(object sender, EventArgs e)
         {
             Form newAgentForm = new CreateAgentDialog();
             newAgentForm.ShowDialog();
@@ -180,7 +196,7 @@ namespace PopulationWars
                 {
                     var name = textBox.Text;
                     Boolean exists = false;
-                    foreach (var item in agentsListBox.Items)
+                    foreach (var item in typeListBox.Items)
                     {
                         if (name.Equals(item))
                         {
@@ -189,8 +205,8 @@ namespace PopulationWars
                     }
                     if (!exists)
                     {
-                        agentsListBox.Items.Add(name);
-                        agentsListBox.SelectedItem = name;
+                        typeListBox.Items.Add(name);
+                        typeListBox.SelectedItem = name;
                     }
                     else
                     {
@@ -201,6 +217,25 @@ namespace PopulationWars
                 }
             }
             newAgentForm.Dispose();
+        }*/
+
+        private void nationListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (nationListBox.SelectedIndex == 0)
+            {
+                nationNameTextBox.Enabled = true;
+                governmentListBox.Enabled = true;
+            }
+            else /*if (nationListBox.SelectedIndex == 1 && m_action == EditPlayer)*/
+            {
+                nationNameTextBox.Enabled = true;
+                governmentListBox.Enabled = false;
+            }
+            /*else
+            {
+                nationNameTextBox.Enabled = false;
+                governmentListBox.Enabled = false;
+            }*/
         }
     }
 }

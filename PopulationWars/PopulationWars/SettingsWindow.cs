@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using PopulationWars.Utilities;
 
-using static PopulationWars.Utilities.Constants;
+using static PopulationWars.Utilities.Constants.GameSettings;
 
 namespace PopulationWars
 {
@@ -32,23 +32,23 @@ namespace PopulationWars
 
         private void SetMinMaxValues()
         {
-            colonyScopeNumericUpDown.Minimum = MinimumColonyScope;
-            colonyScopeNumericUpDown.Maximum = MaximumColonyScope;
+            colonyScopeNumericUpDown.Minimum = Minimum.ColonyScope;
+            colonyScopeNumericUpDown.Maximum = Maximum.ColonyScope;
 
-            gameDurationMinNumericUpDown.Minimum = MinimumMinimumGameDuration;
-            gameDurationMinNumericUpDown.Maximum = MaximumMinimumGameDuration;
+            gameDurationMinNumericUpDown.Minimum = Minimum.MinimumGameDuration;
+            gameDurationMinNumericUpDown.Maximum = Maximum.MinimumGameDuration;
 
-            gameDurationMaxNumericUpDown.Minimum = MinimumMaximumGameDuration;
-            gameDurationMaxNumericUpDown.Maximum = MaximumMaximumGameDuration;
+            gameDurationMaxNumericUpDown.Minimum = Minimum.MaximumGameDuration;
+            gameDurationMaxNumericUpDown.Maximum = Maximum.MaximumGameDuration;
 
-            growthRateNumericUpDown.Minimum = (int)MinimumPopulationGrowthRate;
-            growthRateNumericUpDown.Maximum = (int)MaximumPopulationGrowthRate;
+            growthRateNumericUpDown.Minimum = (int)Minimum.PopulationGrowthRate;
+            growthRateNumericUpDown.Maximum = (int)Maximum.PopulationGrowthRate;
 
-            worldWidthNmericUpDown.Minimum = MinimumWorldWidth;
-            worldWidthNmericUpDown.Maximum = MaximumWorldWidth;
+            worldWidthNmericUpDown.Minimum = Minimum.WorldWidth;
+            worldWidthNmericUpDown.Maximum = Maximum.WorldWidth;
 
-            worldHeightNumericUpDown.Minimum = MinimumWorldHeight;
-            worldHeightNumericUpDown.Maximum = MaximumWorldHeight;
+            worldHeightNumericUpDown.Minimum = Minimum.WorldHeight;
+            worldHeightNumericUpDown.Maximum = Maximum.WorldHeight;
         }
 
         private void saveButton_Click(object sender, EventArgs e)

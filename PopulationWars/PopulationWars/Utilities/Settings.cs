@@ -1,5 +1,5 @@
 ﻿using System;
-using static PopulationWars.Utilities.Constants;
+using static PopulationWars.Utilities.Constants.GameSettings;
 
 namespace PopulationWars.Utilities
 {
@@ -20,11 +20,11 @@ namespace PopulationWars.Utilities
 
         public Settings()
         {
-            ColonyScope = DefaultColonyScope;
-            GameDuration = new Tuple<int, int>(DefaultMinimumGameDuration,
-                DefaultMaximumGameDuration);
-            PopulationGrowthRate = DefaultPopulationGrowthRate;
-            WorldSize = new Tuple<int, int>(DefaultWorldWidth, DefaultWorldHeight);
+            ColonyScope = Default.ColonyScope;
+            GameDuration = new Tuple<int, int>(Default.MinimumGameDuration,
+                Default.MaximumGameDuration);
+            PopulationGrowthRate = Default.PopulationGrowthRate;
+            WorldSize = new Tuple<int, int>(Default.WorldWidth, Default.WorldHeight);
         }
     }
 }

@@ -65,9 +65,9 @@
     <Compile Include="Components\Colony.cs" />
     <Compile Include="Components\Decision.cs" />
     <Compile Include="Components\Direction.cs" />
-    <Compile Include="Components\IAgent.cs" />
-    <Compile Include="Components\RealPlayer.cs" />
-    <Compile Include="Agents\SampleAgent.cs" />
+    <Compile Include="Components\Governments\IAgent.cs" />
+    <Compile Include="Components\Governments\RealPlayer.cs" />
+    <Compile Include="Components\Governments\Democracy.cs" />
     <Compile Include="Components\Situation.cs" />
     <Compile Include="CreateAgentDialog.cs">
       <SubType>Form</SubType>
@@ -75,11 +75,11 @@
     <Compile Include="CreateAgentDialog.Designer.cs">
       <DependentUpon>CreateAgentDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Mechanics\Data.cs" />
-    <Compile Include="Components\IGovernment.cs" />
+    <Compile Include="Mechanics\DataParser.cs" />
+    <Compile Include="Components\Governments\IGovernment.cs" />
     <Compile Include="Mechanics\Game.cs" />
     <Compile Include="Map\Environment.cs" />
-    <Compile Include="Mechanics\MovesController.cs" />
+    <Compile Include="Mechanics\Gameplay.cs" />
     <Compile Include="Mechanics\Player.cs" />
     <Compile Include="Mechanics\TrainSet.cs" />
     <Compile Include="PlayerListWindow.cs">
@@ -119,6 +119,12 @@
     <Compile Include="WorldMapWindow.Designer.cs">
       <DependentUpon>WorldMapWindow.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlayerWindow.resx">
+      <DependentUpon>PlayerWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

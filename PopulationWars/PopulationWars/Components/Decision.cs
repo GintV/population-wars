@@ -6,10 +6,10 @@ namespace PopulationWars.Components
     {
         public bool IsLeaving { get; }
         public Direction Direction { get; }
-        public double? PopulationToMove { get; }
+        public double PopulationToMove { get; }
 
-        public Decision(bool isLeaving, Direction direction = None,
-            double? populationToMove = null)
+        public Decision(bool isLeaving = false, Direction direction = None,
+            double populationToMove = 0.0)
         {
             IsLeaving = isLeaving;
             Direction = direction;

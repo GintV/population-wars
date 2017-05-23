@@ -11,12 +11,14 @@ namespace PopulationWars
 {
     public partial class WorldMapWindow : Form
     {
-        private Panel[,] m_map;
+        private Panel[][] m_map;
+        private Settings m_settings;
 
         public WorldMapWindow(Settings settings)
         {
             InitializeComponent();
             LoadMap(settings);
+            m_settings = settings;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -26,33 +28,28 @@ namespace PopulationWars
             e.Cancel = true;
         }
 
-        public void ChangeTile(int x, int y, Color? color, int? number)
+        public void UpdateTile(Tuple<int, int> position, Color color, int population = 0)
         {
-            Label current = GetFirstLabel(m_map[x, y]);
-            if (current == null)
+            var x = position.Item1 + 1;
+            var y = position.Item2 + 1;
+            m_map[x][y].Invoke((MethodInvoker)delegate
             {
-                current = new Label
+                var label = m_map[x][y].Controls.OfType<Label>().First();
+
+                if (population == 0)
                 {
-                    AutoSize = false,
-                    TextAlign = ContentAlignment.MiddleCenter,
-                    Dock = DockStyle.Fill
-                };
-                m_map[x, y].Controls.Add(current);
-            }
-            if (color != null)
-            {
-                current.BackColor = (Color)color;
-            }
-            if (number != null)
-            {
-                current.Text = ((int)number).ToString();
-            }
+                    label.Text = "";
+                    m_map[x][y].BackColor = (x + y) % 2 == 0 ? WhiteSmoke : White;
+                }
+                else
+                {
+                    label.Text = population.ToString();
+                    m_map[x][y].BackColor = color;
+                }
+            });
         }
 
-        private Label GetFirstLabel(Control parent)
-        {
-            return parent.Controls.OfType<Label>().FirstOrDefault();
-        }
+        public Panel GetTile(Tuple<int, int> position) => m_map[position.Item1][position.Item2];
 
         private void LoadMap(Settings settings)
         {
@@ -61,11 +58,13 @@ namespace PopulationWars
             var clr1 = DarkGray;
             var clr2 = White;
 
-            m_map = new Panel[size.Item2 + 2, size.Item1 + 2];
+            m_map = new Panel[size.Item1 + 2][];
 
-            for (var m = 0; m < size.Item1 + 2; ++m)
+            for (var n = 0; n < size.Item1 + 2; ++n)
             {
-                for (var n = 0; n < size.Item2 + 2; ++n)
+                m_map[n] = new Panel[size.Item2 + 2];
+
+                for (var m = 0; m < size.Item2 + 2; ++m)
                 {
                     var panel = new Panel
                     {
@@ -74,26 +73,32 @@ namespace PopulationWars
                         BackColor = (m + n) % 2 == 0 ? WhiteSmoke : White
                     };
 
-                    if (m == 0 || m == size.Item1 + 1 || n == 0 || n == size.Item2 + 1)
+                    var label = new Label
+                    {
+                        AutoSize = true,
+                        ForeColor = White,
+                        Text = "",
+                        TextAlign = ContentAlignment.MiddleCenter
+                    };
+
+                    panel.Controls.Add(label);
+
+                    if (m == 0 || m == size.Item2 + 1 || n == 0 || n == size.Item1 + 1)
                     {
                         panel.BackColor = Black;
                         panel.BorderStyle = BorderStyle.None;
 
-                        if (!(m == 0 && n == 0) && !(m == size.Item1 + 1 && n == size.Item2 + 1) &&
-                            !(m == 0 && n == size.Item2 + 1) && !(m == size.Item1 + 1 && n == 0))
+                        if (!(m == 0 && n == 0) && !(m == size.Item2 + 1 && n == size.Item1 + 1) &&
+                            !(m == 0 && n == size.Item1 + 1) && !(m == size.Item2 + 1 && n == 0))
                         {
-                            panel.Controls.Add(new Label
-                            {
-                                Text = (m == size.Item1 + 1 || n == size.Item2 + 1 ?
-                                    Min(m, n) : Max(m, n)).ToString(),
-                                ForeColor = Yellow,
-                                Font = new Font(Font, FontStyle.Bold)
-                            });
+                            label.Text = (m == 0 || m == size.Item2 + 1 ? n : m).ToString();
+                            label.ForeColor = Yellow;
+                            label.Font = new Font(Font, FontStyle.Bold);
                         }
                     }
 
                     Controls.Add(panel);
-                    m_map[n, m] = panel;
+                    m_map[n][m] = panel;
                 }
             }
         }

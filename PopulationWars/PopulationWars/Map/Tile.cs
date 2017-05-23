@@ -1,9 +1,9 @@
-﻿using PopulationWars.Components;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PopulationWars.Components;
 
 namespace PopulationWars.Map
 {

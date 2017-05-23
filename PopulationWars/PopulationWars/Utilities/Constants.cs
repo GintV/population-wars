@@ -1,37 +1,57 @@
 ﻿namespace PopulationWars.Utilities
 {
-    public class Constants // TODO: group in smaller groups
+    public class Constants
     {
         public enum GameAction
         {
-            AddPlayer, 
-            DeletePlayer, 
-            EditPlayer
+            AddPlayer,
+            DeletePlayer,
+            EditPlayer,
+            TrainNationSelectNation,
+            TrainNationSelectTrainSet
         }
 
-        internal const int DefaultColonyScope = 3;
-        internal const int DefaultMaximumGameDuration = 150;
-        internal const int DefaultMinimumGameDuration = 100;
-        internal const int DefaultWorldWidth = 30;
-        internal const int DefaultWorldHeight = 30;
+        public enum GovernmentType
+        {
+            Democracy
+        }
 
-        internal const double DefaultPopulationGrowthRate = 2.0;
+        public static class GameSettings
+        {
+            public static class Default
+            {
+                internal const int ColonyScope = 3;
+                internal const int MaximumGameDuration = 150;
+                internal const int MinimumGameDuration = 100;
+                internal const int WorldWidth = 30;
+                internal const int WorldHeight = 30;
+                internal const double PopulationGrowthRate = 2.0;
+            }
 
-        internal const int MinimumColonyScope = 0;
-        internal const int MinimumMaximumGameDuration = 10;
-        internal const int MinimumMinimumGameDuration = 10;
-        internal const int MinimumWorldWidth = 10;
-        internal const int MinimumWorldHeight = 10;
+            public static class Maximum
+            {
+                internal const int ColonyScope = 15;
+                internal const int MaximumGameDuration = 250;
+                internal const int MinimumGameDuration = 200;
+                internal const int WorldWidth = 99;
+                internal const int WorldHeight = 99;
+                internal const double PopulationGrowthRate = 3.0;
+            }
 
-        internal const double MinimumPopulationGrowthRate = 2.0;
+            public static class Minimum
+            {
+                internal const int ColonyScope = 1;
+                internal const int MaximumGameDuration = 10;
+                internal const int MinimumGameDuration = 10;
+                internal const int WorldWidth = 10;
+                internal const int WorldHeight = 10;
+                internal const double PopulationGrowthRate = 1.1;
+            }
+        }
 
-        internal const int MaximumColonyScope = 15;
-        internal const int MaximumMaximumGameDuration = 250;
-        internal const int MaximumMinimumGameDuration = 200;
-        internal const int MaximumWorldWidth = 100;
-        internal const int MaximumWorldHeight = 100;
+        // TODO: group in smaller groups
 
-        internal const double MaximumPopulationGrowthRate = 5.0;
+        internal const int MaximumPopulationInColony = 500000000;
 
         internal const string Agent = "Agent";
         internal const string Human = "Human";
