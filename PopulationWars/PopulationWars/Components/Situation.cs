@@ -1,18 +1,20 @@
-﻿namespace PopulationWars.Components
+﻿using PopulationWars.Map;
+
+namespace PopulationWars.Components
 {
     public class Situation
     {
         public int ColonyPopulation { get; }
         public int NationColoniesCount { get; }
-        public double EnvironmentEvaluation { get; }
+        public Environment Environment { get; }
         public double TurnsEvalutation { get; }
 
         public Situation(int colonyPopulation, int nationColoniesCount,
-            double environmentEvaluation, double turnsEvalutation)
+            Environment environment, double turnsEvalutation)
         {
             ColonyPopulation = colonyPopulation;
             NationColoniesCount = nationColoniesCount;
-            EnvironmentEvaluation = environmentEvaluation;
+            Environment = environment;
             TurnsEvalutation = turnsEvalutation;
         }
     }

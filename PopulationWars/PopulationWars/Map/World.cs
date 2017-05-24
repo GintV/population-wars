@@ -32,7 +32,7 @@ namespace PopulationWars.Map
             var slice = Map.Skip(n).Take(2 * m_colonyScope + 1).
                 Select(s => s.Skip(m).Take(2 * m_colonyScope + 1).ToArray()).ToArray();
 
-            return new Environment(slice);
+            return new Environment(slice, m_colonyScope);
         }
 
         public Tile GetNeighbourTile(Tile tile, Direction direction)
