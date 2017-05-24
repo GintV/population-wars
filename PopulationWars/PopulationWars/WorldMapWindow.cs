@@ -36,7 +36,7 @@ namespace PopulationWars
             {
                 var label = m_map[x][y].Controls.OfType<Label>().First();
 
-                if (population == 0)
+                if (population < 1)
                 {
                     label.Text = "";
                     m_map[x][y].BackColor = (x + y) % 2 == 0 ? WhiteSmoke : White;

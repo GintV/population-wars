@@ -16,6 +16,8 @@ namespace PopulationWars.Mechanics
         private List<Player> m_players;
         private World m_worldMap;
         private int m_turns;
+        private int m_minTurns;
+        private int m_maxTurns;
         private double m_populationGrowthRate;
 
         private Action<Tuple<int, int>, Color, int> UpdateTile;
@@ -31,6 +33,7 @@ namespace PopulationWars.Mechanics
         public bool HoldOn { get; set; }
         public bool StopGame { get; set; }
         public Decision PlayerDecision { get; set; }
+        public List<TrainSet> TrainSets { get; set; }
 
         public Gameplay(Tuple<int, int> gameDuration, double populationGrowthRate,
             List<Player> players, World worldMap)
@@ -38,9 +41,12 @@ namespace PopulationWars.Mechanics
             m_players = players;
             m_worldMap = worldMap;
             m_turns = new Random().Next(gameDuration.Item1, gameDuration.Item2);
+            m_minTurns = gameDuration.Item1;
+            m_maxTurns = gameDuration.Item2;
             m_populationGrowthRate = populationGrowthRate;
             CurrentTurn = 0;
             Speed = 1;
+            TrainSets = new List<TrainSet>();  
         }
 
         public void CreateInitialColonies() =>
@@ -54,6 +60,12 @@ namespace PopulationWars.Mechanics
         public void Play() =>
             Task.Factory.StartNew(() =>
             {
+                m_players.ForEach(p =>
+                {
+                    if (!p.IsAgent)
+                        TrainSets.Add(new TrainSet { Name = p.Name, Date = DateTime.Now });
+                });
+
                 while (++CurrentTurn < m_turns)
                 {
                     SkipGameTurn = false;
@@ -94,14 +106,15 @@ namespace PopulationWars.Mechanics
                 return;
             }
 
-            var populationToMove = (int)(colony.Population * decision.PopulationToMove) + 1;
+            var populationToMove = (int)Math.Floor(colony.Population * decision.PopulationToMove);
             colony.Population -= populationToMove;
-            UpdateTile(colony.Tile.Position, player.Color, colony.Population);
 
             if (colony.Population < 1)
             {
                 player.DestroyColony(colony.Tile);
             }
+
+            UpdateTile(colony.Tile.Position, player.Color, colony.Population);
 
             if (tileToMove.IsEmpty)
             {
@@ -150,17 +163,23 @@ namespace PopulationWars.Mechanics
                 MakePlayerTurn(player);
             });
 
-        private void MakePlayerTurn(Player player) =>
-            new List<Colony>(player.Colonies).ForEach(colony =>
+        private void MakePlayerTurn(Player player)
+        {
+            var colonies = new List<Colony>();
+            colonies.AddRange(player.Colonies);
+
+            colonies.ForEach(colony =>
             {
                 if (Speed < 32 && !SkipPlayerTurn && !SkipGameTurn || !player.IsAgent)
                     LoadEnvironment(colony.Tile.Position);
 
+                var situation = new Situation(colony.Population, player.Colonies.Count,
+                    m_worldMap.GetEnvironment(colony.Tile), m_minTurns, m_maxTurns, CurrentTurn);
+
                 Decision decision;
                 if (player.IsAgent)
                 {
-                    // TODO: form situation
-                    decision = colony.Nation.Government.MakeDecision(null);
+                    decision = colony.Nation.Government.MakeDecision(situation);
                 }
                 else
                 {
@@ -175,6 +194,11 @@ namespace PopulationWars.Mechanics
                             Thread.Sleep(1000);
 
                         decision = PlayerDecision;
+
+                        var trainSet = TrainSets.Where(t => t.Name == player.Name).First();
+                        trainSet.Situation.Add(situation);
+                        trainSet.Decision.Add(decision);
+
                         RequestHumanPlayerMove(false);
                     }
                 }
@@ -187,5 +211,6 @@ namespace PopulationWars.Mechanics
                 if (!SkipPlayerTurn && !SkipGameTurn)
                     Thread.Sleep(2048 / Speed);
             });
+        }
     }
 }

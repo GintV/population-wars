@@ -1,5 +1,8 @@
-﻿namespace PopulationWars.Components
+﻿using System;
+
+namespace PopulationWars.Components
 {
+    [Serializable]
     public enum Direction
     {
         None = 0,

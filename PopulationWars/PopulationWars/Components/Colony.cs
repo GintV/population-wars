@@ -1,7 +1,9 @@
 ﻿using PopulationWars.Map;
+using System;
 
 namespace PopulationWars.Components
 {
+    [Serializable]
     public class Colony
     {
         public Nation Nation { get; set; }

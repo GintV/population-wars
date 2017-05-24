@@ -138,6 +138,9 @@ namespace PopulationWars
         {
             var players = m_game.Players.OrderByDescending(player => player.Colonies.Count);
 
+            m_trainSets.AddRange(m_game.Gameplay.TrainSets);
+            DataParser.Serialize(m_trainSets);
+
             Invoke((MethodInvoker)delegate
             {
                 ResetGameToolStripEnabled(true);

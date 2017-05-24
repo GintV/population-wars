@@ -1,5 +1,8 @@
-﻿namespace PopulationWars.Map
+﻿using System;
+
+namespace PopulationWars.Map
 {
+    [Serializable]
     public class Environment
     {
         public Tile[][] Map { get; }

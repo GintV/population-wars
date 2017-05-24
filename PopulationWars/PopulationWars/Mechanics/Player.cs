@@ -48,7 +48,5 @@ namespace PopulationWars.Mechanics
 
         public override string ToString() =>
             $"{Name} ({(IsAgent ? Agent : Human)}), {Nation}";
-
-
     }
 }

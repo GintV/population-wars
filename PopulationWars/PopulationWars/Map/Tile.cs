@@ -7,6 +7,7 @@ using PopulationWars.Components;
 
 namespace PopulationWars.Map
 {
+    [Serializable]
     public class Tile
     {
         public readonly Tuple<int, int> Position;

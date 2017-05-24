@@ -21,10 +21,10 @@
             public static class Default
             {
                 internal const int ColonyScope = 3;
-                internal const int MaximumGameDuration = 150;
-                internal const int MinimumGameDuration = 100;
-                internal const int WorldWidth = 30;
-                internal const int WorldHeight = 30;
+                internal const int MaximumGameDuration = 30;
+                internal const int MinimumGameDuration = 20;
+                internal const int WorldWidth = 15;
+                internal const int WorldHeight = 15;
                 internal const double PopulationGrowthRate = 2.0;
             }
 

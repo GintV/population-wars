@@ -1,7 +1,9 @@
-﻿using static PopulationWars.Components.Direction;
+﻿using System;
+using static PopulationWars.Components.Direction;
 
 namespace PopulationWars.Components
 {
+    [Serializable]
     public class Decision
     {
         public bool IsLeaving { get; }
