@@ -81,7 +81,7 @@ namespace PopulationWars.Mechanics
             if (!decision.IsLeaving)
             {
                 var population = (int)(colony.Population * m_populationGrowthRate);
-                colony.Population = colony.Population > MaximumPopulationInColony ?
+                colony.Population = population > MaximumPopulationInColony ?
                     MaximumPopulationInColony : population;
                 UpdateTile(colony.Tile.Position, player.Color, colony.Population);
                 return;

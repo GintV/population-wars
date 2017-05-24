@@ -40,7 +40,7 @@ namespace PopulationWars
             gameControlGroupBox.Invoke((MethodInvoker)delegate
             {
                 if (enabled)
-                    PreselectDirectionListBox();
+                    PreselectDirection();
 
                 gameControlGroupBox.Enabled = enabled;
             });
@@ -80,12 +80,21 @@ namespace PopulationWars
                         if (originalLabel != null)
                             tile.Controls.Add(new Label
                             {
+                                /* centers the label but removes the center tile's border
+                                AutoSize = false,
+                                Dock = DockStyle.Fill, 
+                                */
                                 AutoSize = originalLabel.AutoSize,
                                 Dock = originalLabel.Dock,
                                 ForeColor = originalLabel.ForeColor,
                                 Text = originalLabel.Text,
                                 TextAlign = originalLabel.TextAlign
                             });
+
+                        if (n == m && m == gridSize / 2)
+                        {
+                            tile.Paint += centerPanel_Paint;
+                        }
                     }
                     else
                         tile = new Panel { BackColor = Black };
@@ -114,8 +123,8 @@ namespace PopulationWars
             addPlayerToolStripMenuItem.Enabled = editPlayerToolStripMenuItem.Enabled =
             deletePlayerToolStripMenuItem.Enabled = startGameToolStripMenuItem.Enabled = enabled;
 
-        private void PreselectDirectionListBox() => directionListBox.SelectedIndex = 0;
-
+        private void PreselectDirection() => directionGroupBox.Controls.OfType<RadioButton>()
+            .First(b => Convert.ToInt32(b.Tag) == 0).Checked = true;
         private void RefreshPlayerListBox()
         {
             playerListBox.Items.Clear();
@@ -279,17 +288,16 @@ namespace PopulationWars
 
         private void makeMoveButton_Click(object sender, EventArgs e)
         {
-            var direction = (Direction)directionListBox.SelectedIndex;
+            //var direction = (Direction)directionListBox.SelectedIndex;
+            var direction = (Direction) Convert.ToInt32(directionGroupBox.Controls.OfType<RadioButton>().First(b => b.Checked).Tag);
             var populationToMove = (int)populationNumericUpDown.Value;
 
             m_game.Gameplay.PlayerDecision =
                 new Decision(direction != Direction.None, direction, populationToMove / 100.0);
-
+            m_game.Gameplay.SkipHumanPlayerTurn = skipCheckBox.Checked;
+            skipCheckBox.Checked = false;
             m_game.Gameplay.HoldOn = false;
         }
-
-        private void skipTurnButton_Click(object sender, EventArgs e) =>
-            m_game.Gameplay.SkipHumanPlayerTurn = true;
 
         private void trainNationToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -309,6 +317,15 @@ namespace PopulationWars
                 return;
 
             DataParser.Serialize(m_nations);
+        }
+
+        private void centerPanel_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            int width = 4;
+            Pen pen = new Pen(White, width);
+            g.DrawRectangle(pen, width / 2, width / 2, e.ClipRectangle.Width - width, e.ClipRectangle.Height - width);
+            pen.Dispose();
         }
     }
 }
