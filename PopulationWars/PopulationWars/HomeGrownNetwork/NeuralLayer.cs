@@ -37,7 +37,7 @@ namespace PopulationWars.HomeGrownNetwork
             }
         }
 
-        public double[] BackPropagate(double[] givenOutputs, double[] reversedOutputs)
+        public virtual double[] BackPropagate(double[] givenOutputs, double[] reversedOutputs)
         {
             var results = new double[Size];
             for (var i = 0; i < Size; i++)
@@ -46,9 +46,28 @@ namespace PopulationWars.HomeGrownNetwork
                 {
                     results[i] += reversedOutputs[i] * w;
                 }
-                results[i] *= 1 -m_activationDerivative(reversedOutputs[i]);
+                results[i] *= 1 - m_activationDerivative(reversedOutputs[i]);
             }
             return results;
+        }
+
+        public Tuple<double[][], double[]> CalculateDeltas(double[] givenOutputs, double[] reversedOutputs, double learningRate)
+        {
+            var dW = new double[Size][];
+            var dB = new double[Size];
+            for (var i = 0; i < Size; i++)
+            {
+                var weightCount = Neurons[i].Weights.Length;
+                dW[i] = new double[weightCount];
+                dB[i] = 0;
+                for (var k = 0; k < weightCount; k++)
+                {
+                    dW[i][k] = givenOutputs[i] * reversedOutputs[k] * -learningRate;
+                    dB[i] += reversedOutputs[k];
+                }
+                dB[i] *= -learningRate;
+            }
+            return new Tuple<double[][], double[]>(dW, dB);
         }
     }
 }

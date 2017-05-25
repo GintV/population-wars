@@ -6,7 +6,7 @@ namespace PopulationWars.HomeGrownNetwork
 {
     class InputLayer : NeuralLayer
     {
-        public InputLayer(int size, Func<double, double> activationFunc) : base(size, 1, activationFunc)
+        public InputLayer(int size, Func<double, double> activationFunc, Func<double, double> activationDerivative) : base(size, 1, activationFunc, activationDerivative)
         {
         }
 

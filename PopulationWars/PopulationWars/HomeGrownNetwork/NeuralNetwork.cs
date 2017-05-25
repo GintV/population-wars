@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PopulationWars.HomeGrownNetwork
 {
@@ -15,7 +16,7 @@ namespace PopulationWars.HomeGrownNetwork
         public NeuralNetwork(IReadOnlyList<int> layerSizes, double learningRate, Func<double, double> activationFunc, Func<double, double> activationDerivative)
         {
             m_learningRate = learningRate;
-            m_layers = new List<NeuralLayer>(layerSizes.Count) { new InputLayer(layerSizes[0], activationFunc) };
+            m_layers = new List<NeuralLayer>(layerSizes.Count) { new InputLayer(layerSizes[0], activationFunc, activationDerivative) };
             var previousSize = layerSizes[0];
             for (var i = 1; i < layerSizes.Count - 1; i++)
             {
@@ -59,41 +60,17 @@ namespace PopulationWars.HomeGrownNetwork
                         outputStack.Push(currentInputs);
                     }
                     error += CalculateLoss(outputs[i], currentInputs);
-                    var reversedOutputs = outputStack.Pop();
-                    for (var k = 0; k < reversedOutputs.Length; k++)
-                    {
-                        reversedOutputs[k] -= outputs[i][k];
-                    }
-                    for (var k = m_layers.Count - 2; k > 0; k--)
+                    var reversedOutputs = outputs[i];
+                    foreach (var layer in Enumerable.Reverse(m_layers))
                     {
                         var givenOutputs = outputStack.Pop();
-                        var parametersDeltas = CalculateParametersDeltas(givenOutputs, reversedOutputs);
-                        if (k != 0)
-                            reversedOutputs = m_layers[k].BackPropogate(givenOutputs, reversedOutputs);
-                        m_layers[k].AlterParameters(parametersDeltas.Item1, parametersDeltas.Item2);
+                        var parametersDeltas = layer.CalculateDeltas(givenOutputs, reversedOutputs, m_learningRate);
+                        reversedOutputs = layer.BackPropagate(givenOutputs, reversedOutputs);
+                        layer.AlterParameters(parametersDeltas.Item1, parametersDeltas.Item2);
                     }
                 }
                 error = -1 * error / trainSetSize;
             }
-        }
-
-        private Tuple<double[][], double[]> CalculateParametersDeltas(double[] givenOutputs, double[] reversedOutputs)
-        {
-            var outputCount = givenOutputs.Length;
-            var dW = new double[outputCount][];
-            var dB = new double[outputCount];
-            for (var i = 0; i < outputCount; i++)
-            {
-                dW[i] = new double[outputCount];
-                dB[i] = 0;
-                for (var k = 0; k < outputCount; k++)
-                {
-                    dW[i][k] = givenOutputs[i] * reversedOutputs[k] * -m_learningRate;
-                    dB[i] += reversedOutputs[k];
-                }
-                dB[i] *= -m_learningRate;
-            }
-            return new Tuple<double[][], double[]>(dW, dB);
         }
 
         private static double CalculateLoss(double[] expected, double[] predicted)
