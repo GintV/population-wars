@@ -38,6 +38,7 @@
             this.playerListBox.FormattingEnabled = true;
             this.playerListBox.Location = new System.Drawing.Point(28, 25);
             this.playerListBox.Name = "playerListBox";
+            this.playerListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.playerListBox.Size = new System.Drawing.Size(229, 173);
             this.playerListBox.TabIndex = 0;
             // 

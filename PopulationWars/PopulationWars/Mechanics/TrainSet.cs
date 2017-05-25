@@ -19,5 +19,11 @@ namespace PopulationWars.Mechanics
         public List<Decision> Decision { get; set; }
 
         public override string ToString() => Name + Date;
+
+        public void Merge(TrainSet otherSet)
+        {
+            Situation.AddRange(otherSet.Situation);
+            Decision.AddRange(otherSet.Decision);
+        }
     }
 }

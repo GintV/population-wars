@@ -124,6 +124,21 @@ namespace PopulationWars
                 Where(n => n.ToString() == playerListBox.SelectedItem.ToString()).FirstOrDefault();
             var trainSet = m_trainSets?.
                 Where(t => t.ToString() == playerListBox.SelectedItem.ToString()).FirstOrDefault();
+            if (m_trainSets != null)
+            {
+                var setNames = playerListBox.SelectedItems;
+                var jointSet = new TrainSet();
+                foreach (var name in setNames)
+                {
+                    var toAdd = m_trainSets?.
+                        Where(t => t.ToString() == name.ToString()).FirstOrDefault();
+                    if (toAdd != null)
+                    {
+                        jointSet.Merge(toAdd);
+                    }
+                }
+                trainSet = jointSet;
+            }
 
             if (m_action == GameAction.EditPlayer)
                 EditPlayer(player);
