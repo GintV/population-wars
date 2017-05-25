@@ -65,6 +65,7 @@
     <Compile Include="Components\Colony.cs" />
     <Compile Include="Components\Decision.cs" />
     <Compile Include="Components\Direction.cs" />
+    <Compile Include="Components\Governments\AForgeNetwork.cs" />
     <Compile Include="Components\Governments\HomeGrownNetwork.cs" />
     <Compile Include="Components\Governments\IAgent.cs" />
     <Compile Include="Components\Governments\RealPlayer.cs" />
