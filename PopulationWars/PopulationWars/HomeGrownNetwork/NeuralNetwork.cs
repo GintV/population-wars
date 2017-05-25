@@ -4,10 +4,16 @@ using System.Linq;
 
 namespace PopulationWars.HomeGrownNetwork
 {
-    class NeuralNetwork
+    class NeuralNetwork : ICloneable
     {
         private readonly List<NeuralLayer> m_layers;
         private readonly double m_learningRate;
+
+        private NeuralNetwork(double learningRate)
+        {
+            m_layers = new List<NeuralLayer>();
+            m_learningRate = learningRate;
+        }
 
         public NeuralNetwork(IReadOnlyList<int> layerSizes, double learningRate) : this(layerSizes, learningRate, Math.Tanh, x => 1 - Math.Pow(Math.Tanh(x), 2))
         {
@@ -81,6 +87,16 @@ namespace PopulationWars.HomeGrownNetwork
                 sum = expected[i] * Math.Log(predicted[i]);
             }
             return sum;
+        }
+
+        public object Clone()
+        {
+            var clone = new NeuralNetwork(m_learningRate);
+            foreach (var layer in m_layers)
+            {
+                clone.m_layers.Add((NeuralLayer) layer.Clone());
+            }
+            return clone;
         }
     }
 }

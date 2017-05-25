@@ -4,12 +4,20 @@ using System.Linq;
 
 namespace PopulationWars.HomeGrownNetwork
 {
-    class NeuralLayer
+    class NeuralLayer : ICloneable
     {
         public int Size { get; }
         protected List<Neuron> Neurons;
         private readonly Func<double, double> m_activationFunc;
         private readonly Func<double, double> m_activationDerivative;
+
+        private NeuralLayer(Func<double, double> activationFunc, Func<double, double> activationDerivative, int size)
+        {
+            m_activationFunc = activationFunc;
+            m_activationDerivative = activationDerivative;
+            Size = size;
+            Neurons = new List<Neuron>(size);
+        }
         public NeuralLayer(int size, int inputCount, Func<double, double> activationFunc, Func<double, double> activationDerivative)
         {
             Size = size;
@@ -68,6 +76,16 @@ namespace PopulationWars.HomeGrownNetwork
                 dB[i] *= -learningRate;
             }
             return new Tuple<double[][], double[]>(dW, dB);
+        }
+
+        public object Clone()
+        {
+            var clone = new NeuralLayer(m_activationFunc, m_activationDerivative, Size);
+            foreach (var neuron in Neurons)
+            {
+                clone.Neurons.Add((Neuron)neuron.Clone());
+            }
+            return clone;
         }
     }
 }

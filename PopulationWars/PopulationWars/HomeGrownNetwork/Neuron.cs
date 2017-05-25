@@ -1,13 +1,20 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace PopulationWars.HomeGrownNetwork
 {
-    class Neuron
+    class Neuron : ICloneable
     {
         public Neuron(int inputCount)
         {
             Weights = new double[inputCount];
             m_bias = 0;
+        }
+
+        public Neuron(double[] weights, double bias = 0)
+        {
+            Weights = (double []) weights.Clone();
+            m_bias = bias;
         }
 
         private double m_bias;
@@ -21,6 +28,11 @@ namespace PopulationWars.HomeGrownNetwork
             {
                 Weights[i] += deltaWeights[i];
             }
+        }
+
+        public object Clone()
+        {
+            return new Neuron(Weights, m_bias);
         }
     }
 }
