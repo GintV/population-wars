@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using static System.IO.Directory;
 
 namespace PopulationWars.Mechanics
 {
@@ -24,8 +25,8 @@ namespace PopulationWars.Mechanics
 
         private static void Serialize(object data, string path)
         {
+            CreateDirectory(path.Substring(0, path.LastIndexOf(Path.DirectorySeparatorChar)));
             var formatter = new BinaryFormatter();
-            Directory.CreateDirectory(path.Substring(0, path.LastIndexOf(Path.DirectorySeparatorChar)));
             var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
             formatter.Serialize(stream, data);
             stream.Close();
@@ -39,7 +40,8 @@ namespace PopulationWars.Mechanics
                 object data = null;
                 try
                 {
-                    var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    var stream = new FileStream(path, FileMode.Open, FileAccess.Read,
+                        FileShare.Read);
                     data = formatter.Deserialize(stream);
                     stream.Close();
                 }
@@ -50,10 +52,7 @@ namespace PopulationWars.Mechanics
                 }
                 return data;
             }
-
             return null;
         }
-
-
     }
 }

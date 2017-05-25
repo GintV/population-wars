@@ -106,7 +106,8 @@ namespace PopulationWars.Mechanics
                 return;
             }
 
-            var populationToMove = (int)Math.Floor(colony.Population * decision.PopulationToMove);
+            var populationToMove =
+                (int)Math.Ceiling(colony.Population * decision.PopulationToMove);
             colony.Population -= populationToMove;
 
             if (colony.Population < 1)

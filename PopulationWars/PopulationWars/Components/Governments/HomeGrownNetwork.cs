@@ -73,6 +73,8 @@ namespace PopulationWars.Components.Governments
             return OutputsToDecision(m_network.Predict(SituationToInputs(situation)));
         }
 
+        public override string ToString() => "HomeGrownNetwork";
+
         private double[] SituationToInputs(Situation situation)
         {
             var dim = situation.Environment.Size * 2 + 1;

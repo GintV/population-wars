@@ -38,10 +38,10 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.nationGroupBox = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.governmentListBox = new System.Windows.Forms.ListBox();
             this.typeListBox = new System.Windows.Forms.ListBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.nationGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -142,9 +142,21 @@
             this.nationGroupBox.TabStop = false;
             this.nationGroupBox.Text = "Nation";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 38);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(86, 13);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "Copy nation from";
+            // 
             // governmentListBox
             // 
             this.governmentListBox.FormattingEnabled = true;
+            this.governmentListBox.Items.AddRange(new object[] {
+            "Anarchy",
+            "HomeGrownNetwork"});
             this.governmentListBox.Location = new System.Drawing.Point(115, 80);
             this.governmentListBox.Name = "governmentListBox";
             this.governmentListBox.Size = new System.Drawing.Size(100, 43);
@@ -169,15 +181,6 @@
             this.label3.Size = new System.Drawing.Size(31, 13);
             this.label3.TabIndex = 19;
             this.label3.Text = "Type";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 38);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(86, 13);
-            this.label4.TabIndex = 13;
-            this.label4.Text = "Copy nation from";
             // 
             // PlayerWindow
             // 

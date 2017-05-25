@@ -4,7 +4,7 @@ using PopulationWars.Mechanics;
 namespace PopulationWars.Components.Governments
 {
     [Serializable]
-    public class Democracy : IGovernment
+    public class Anarchy : IGovernment
     {
         public Decision MakeDecision(Situation situation)
         {
@@ -18,7 +18,7 @@ namespace PopulationWars.Components.Governments
             // Random will stay forever random
         }
 
-        public object Clone() => new Democracy();
+        public object Clone() => new Anarchy();
 
         public override string ToString() => "Democracy";
 

@@ -292,7 +292,9 @@ namespace PopulationWars
         private void makeMoveButton_Click(object sender, EventArgs e)
         {
             //var direction = (Direction)directionListBox.SelectedIndex;
-            var direction = (Direction) Convert.ToInt32(directionGroupBox.Controls.OfType<RadioButton>().First(b => b.Checked).Tag);
+            var direction = (Direction)Convert.
+                ToInt32(directionGroupBox.Controls.OfType<RadioButton>().
+                First(b => b.Checked).Tag);
             var populationToMove = (int)populationNumericUpDown.Value;
 
             m_game.Gameplay.PlayerDecision =
@@ -313,7 +315,7 @@ namespace PopulationWars
 
         private void saveNationsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var dialogResult = MessageBox.Show("You are going to save all nations to file and " + 
+            var dialogResult = MessageBox.Show("You are going to save all nations to file and " +
                 " override any existing save. Continue?", "Information", MessageBoxButtons.YesNo,
                 MessageBoxIcon.Information);
             if (dialogResult == DialogResult.No)
@@ -327,7 +329,8 @@ namespace PopulationWars
             Graphics g = e.Graphics;
             int width = 4;
             Pen pen = new Pen(White, width);
-            g.DrawRectangle(pen, width / 2, width / 2, e.ClipRectangle.Width - width, e.ClipRectangle.Height - width);
+            g.DrawRectangle(pen, width / 2, width / 2, e.ClipRectangle.Width - width,
+                e.ClipRectangle.Height - width);
             pen.Dispose();
         }
     }

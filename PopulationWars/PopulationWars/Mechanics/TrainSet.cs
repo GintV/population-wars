@@ -18,7 +18,7 @@ namespace PopulationWars.Mechanics
         public List<Situation> Situation { get; set; }
         public List<Decision> Decision { get; set; }
 
-        public override string ToString() => Name + Date;
+        public override string ToString() => $"{Name} {Date}, {Situation.Count}";
 
         public void Merge(TrainSet otherSet)
         {

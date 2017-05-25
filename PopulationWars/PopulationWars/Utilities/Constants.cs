@@ -13,7 +13,8 @@
 
         public enum GovernmentType
         {
-            Democracy
+            Anarchy,
+            HomeGrownNetwork
         }
 
         public static class GameSettings

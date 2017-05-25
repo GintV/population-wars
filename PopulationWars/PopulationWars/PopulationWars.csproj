@@ -68,7 +68,7 @@
     <Compile Include="Components\Governments\HomeGrownNetwork.cs" />
     <Compile Include="Components\Governments\IAgent.cs" />
     <Compile Include="Components\Governments\RealPlayer.cs" />
-    <Compile Include="Components\Governments\Democracy.cs" />
+    <Compile Include="Components\Governments\Anarchy.cs" />
     <Compile Include="Components\Situation.cs" />
     <Compile Include="CreateAgentDialog.cs">
       <SubType>Form</SubType>

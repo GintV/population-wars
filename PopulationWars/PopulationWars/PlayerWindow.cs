@@ -78,7 +78,8 @@ namespace PopulationWars
             Text = action == AddPlayer ? "Add Player" : "Edit Player";
 
         private void PreselectListBoxes() =>
-            typeListBox.SelectedIndex = nationListBox.SelectedIndex = 0;
+            typeListBox.SelectedIndex = nationListBox.SelectedIndex =
+            governmentListBox.SelectedIndex = 0;
 
         private void colorButton_Click(object sender, EventArgs e)
         {
@@ -125,12 +126,17 @@ namespace PopulationWars
                 gov = new RealPlayer();
             }*/
 
+            var selectedGovernment = governmentListBox.SelectedItem.ToString();
+            var government = selectedGovernment == GovernmentType.Anarchy.ToString() ?
+                 new Anarchy() : selectedGovernment == GovernmentType.HomeGrownNetwork.ToString() ?
+                (IGovernment)new Components.Governments.HomeGrownNetwork() : new Anarchy();
+
             var nation = nationListBox.SelectedIndex == 0 ?
-                new Nation(nationName, new Democracy()) :
+                new Nation(nationName, government) :
                 (m_action == EditPlayer && nationListBox.SelectedIndex == 1) ?
                 Player.Nation : new Nation(nationName, m_nations.Where(n => n.ToString() ==
                 nationListBox.SelectedItem.ToString()).First().Government);
-            
+
             var playerNameExists = m_players.Where(p => p.Name == playerName).Any();
             var nationNameExists = m_action == AddPlayer ?
                 m_nations.Where(n => n.Name == nationName).Any() :
