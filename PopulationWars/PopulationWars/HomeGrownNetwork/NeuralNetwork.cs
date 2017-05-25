@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace PopulationWars.HomeGrownNetwork
 {
+    [Serializable]
     class NeuralNetwork : ICloneable
     {
         private readonly List<NeuralLayer> m_layers;
@@ -66,17 +67,22 @@ namespace PopulationWars.HomeGrownNetwork
                         outputStack.Push(currentInputs);
                     }
                     error += CalculateLoss(outputs[i], currentInputs);
-                    var reversedOutputs = outputs[i];
+                    if (Double.IsNaN(error))
+                    {
+                        Console.WriteLine("shit hit the fan");
+                    }
+                    var reversedOutputs = ((OutputLayer) m_layers[m_layers.Count - 1]).ReverseActivation(outputStack.Pop(), outputs[i]);
                     foreach (var layer in Enumerable.Reverse(m_layers))
                     {
-                        var givenOutputs = outputStack.Pop();
-                        var parametersDeltas = layer.CalculateDeltas(givenOutputs, reversedOutputs, m_learningRate);
-                        reversedOutputs = layer.BackPropagate(givenOutputs, reversedOutputs);
+                        var receivedInputs = outputStack.Pop();
+                        var parametersDeltas = layer.CalculateDeltas(receivedInputs, reversedOutputs, m_learningRate);
+                        reversedOutputs = layer.BackPropagate(reversedOutputs, receivedInputs);
                         layer.AlterParameters(parametersDeltas.Item1, parametersDeltas.Item2);
                     }
                 }
                 error = -1 * error / trainSetSize;
             }
+            Console.WriteLine("Last error: " + error);
         }
 
         private static double CalculateLoss(double[] expected, double[] predicted)
@@ -84,7 +90,7 @@ namespace PopulationWars.HomeGrownNetwork
             var sum = 0.0;
             for (var i = 0; i < expected.Length; i++)
             {
-                sum = expected[i] * Math.Log(predicted[i]);
+                sum += expected[i] * Math.Log(predicted[i]);
             }
             return sum;
         }

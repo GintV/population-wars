@@ -4,17 +4,18 @@ using System.Linq;
 
 namespace PopulationWars.HomeGrownNetwork
 {
+    [Serializable]
     class NeuralLayer : ICloneable
     {
         public int Size { get; }
         protected List<Neuron> Neurons;
         private readonly Func<double, double> m_activationFunc;
-        private readonly Func<double, double> m_activationDerivative;
+        protected readonly Func<double, double> ActivationDerivative;
 
         private NeuralLayer(Func<double, double> activationFunc, Func<double, double> activationDerivative, int size)
         {
             m_activationFunc = activationFunc;
-            m_activationDerivative = activationDerivative;
+            ActivationDerivative = activationDerivative;
             Size = size;
             Neurons = new List<Neuron>(size);
         }
@@ -22,7 +23,7 @@ namespace PopulationWars.HomeGrownNetwork
         {
             Size = size;
             m_activationFunc = activationFunc;
-            m_activationDerivative = activationDerivative;
+            ActivationDerivative = activationDerivative;
             Neurons = new List<Neuron>(size);
             for (var i = 0; i < size; i++)
             {
@@ -45,16 +46,16 @@ namespace PopulationWars.HomeGrownNetwork
             }
         }
 
-        public virtual double[] BackPropagate(double[] givenOutputs, double[] reversedOutputs)
+        public virtual double[] BackPropagate(double[] reversedOutputs, double[] receivedInputs)
         {
-            var results = new double[Size];
-            for (var i = 0; i < Size; i++)
+            var results = new double[receivedInputs.Length];
+            for (var i = 0; i < receivedInputs.Length; i++)
             {
-                foreach (double w in Neurons[i].Weights)
+                for (var k = 0; k < reversedOutputs.Length; k++)
                 {
-                    results[i] += reversedOutputs[i] * w;
+                    results[i] += reversedOutputs[k] * Neurons[k].Weights[i];
                 }
-                results[i] *= 1 - m_activationDerivative(reversedOutputs[i]);
+                results[i] *= 1 - ActivationDerivative(receivedInputs[i]);
             }
             return results;
         }
@@ -70,8 +71,8 @@ namespace PopulationWars.HomeGrownNetwork
                 dB[i] = 0;
                 for (var k = 0; k < weightCount; k++)
                 {
-                    dW[i][k] = givenOutputs[i] * reversedOutputs[k] * -learningRate;
-                    dB[i] += reversedOutputs[k];
+                    dW[i][k] = givenOutputs[k] * reversedOutputs[i] * -learningRate;
+                    dB[i] += reversedOutputs[i];
                 }
                 dB[i] *= -learningRate;
             }
@@ -80,7 +81,7 @@ namespace PopulationWars.HomeGrownNetwork
 
         public object Clone()
         {
-            var clone = new NeuralLayer(m_activationFunc, m_activationDerivative, Size);
+            var clone = new NeuralLayer(m_activationFunc, ActivationDerivative, Size);
             foreach (var neuron in Neurons)
             {
                 clone.Neurons.Add((Neuron)neuron.Clone());

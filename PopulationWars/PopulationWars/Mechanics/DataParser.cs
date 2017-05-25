@@ -25,6 +25,7 @@ namespace PopulationWars.Mechanics
         private static void Serialize(object data, string path)
         {
             var formatter = new BinaryFormatter();
+            Directory.CreateDirectory(path.Substring(0, path.LastIndexOf(Path.DirectorySeparatorChar)));
             var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
             formatter.Serialize(stream, data);
             stream.Close();
@@ -35,9 +36,18 @@ namespace PopulationWars.Mechanics
             if (File.Exists(path))
             {
                 var formatter = new BinaryFormatter();
-                var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-                var data = formatter.Deserialize(stream);
-                stream.Close();
+                object data = null;
+                try
+                {
+                    var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                    data = formatter.Deserialize(stream);
+                    stream.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.StackTrace);
+                }
                 return data;
             }
 

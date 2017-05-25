@@ -5,19 +5,21 @@ using PopulationWars.Mechanics;
 
 namespace PopulationWars.Components.Governments
 {
+    [Serializable]
     class HomeGrownNetwork : IGovernment
     {
         private const int OutputSize = 9;
         private const double TestSetPercentage = 20.0;
-        private const int MaxEpochs = 5000;
-        private const double GoalError = 0.2;
-        private const double PopulationToMove = 50.0;
-        private static readonly int[] HiddenLayerSizes = { 3 };
+        private const int MaxEpochs = 1500;
+        private const double GoalError = 0.00002;
+        private const double PopulationToMove = 0.5;
+        private const double LearningRate = 0.00001;
+        private static readonly int[] HiddenLayerSizes = { 50, 20, 50 };
 
         private NeuralNetwork m_network;
         private int m_inputSize;
 
-        HomeGrownNetwork() { }
+        public HomeGrownNetwork() { }
 
         public object Clone()
         {
@@ -31,7 +33,8 @@ namespace PopulationWars.Components.Governments
 
         public void Train(TrainSet trainSet)
         {
-            var inputSize = trainSet.Situation.First().Environment.Map.Length * 2 + 3;
+            var dim = trainSet.Situation.First().Environment.Size * 2 + 1;
+            var inputSize = dim * dim * 2 + 3;
             if (m_network == null)
             {
                 m_inputSize = inputSize;
@@ -39,12 +42,22 @@ namespace PopulationWars.Components.Governments
                 layerSizes[0] = m_inputSize;
                 layerSizes[layerSizes.Length - 1] = OutputSize;
                 Array.Copy(HiddenLayerSizes, 0, layerSizes, 1, HiddenLayerSizes.Length);
-                m_network = new NeuralNetwork(layerSizes, 0.000000001);
+                m_network = new NeuralNetwork(layerSizes, LearningRate);
             }
             if (inputSize != m_inputSize)
             {
                 throw new Exception("Training set input variables doesn't match neural networks input structure.");
             }
+            for (var i = 0; i < trainSet.Situation.Count; i++)
+            {
+                if (trainSet.Decision[i].Direction == Direction.None)
+                {
+                    trainSet.Decision[i] = null;
+                    trainSet.Situation[i] = null;
+                }
+            }
+            trainSet.Decision = trainSet.Decision.Where(d => d != null).ToList();
+            trainSet.Situation = trainSet.Situation.Where(s => s != null).ToList();
             var inputs = new double[trainSet.Situation.Count][];
             var outputs = new double[trainSet.Situation.Count][];
             for (var i = 0; i < trainSet.Decision.Count; i++)
@@ -62,7 +75,7 @@ namespace PopulationWars.Components.Governments
 
         private double[] SituationToInputs(Situation situation)
         {
-            var dim = situation.Environment.Size;
+            var dim = situation.Environment.Size * 2 + 1;
             var inputSize = dim * dim * 2 + 3;
             if (inputSize != m_inputSize)
             {

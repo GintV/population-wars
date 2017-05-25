@@ -3,11 +3,17 @@ using System.Linq;
 
 namespace PopulationWars.HomeGrownNetwork
 {
+    [Serializable]
     class Neuron : ICloneable
     {
         public Neuron(int inputCount)
         {
             Weights = new double[inputCount];
+            Random ran = new Random();
+            for (var i = 0; i < inputCount; i++)
+            {
+                Weights[i] = ran.NextDouble();
+            }
             m_bias = 0;
         }
 
