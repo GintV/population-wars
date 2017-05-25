@@ -9,10 +9,12 @@ namespace PopulationWars.HomeGrownNetwork
         public int Size { get; }
         protected List<Neuron> Neurons;
         private readonly Func<double, double> m_activationFunc;
-        public NeuralLayer(int size, int inputCount, Func<double, double> activationFunc)
+        private readonly Func<double, double> m_activationDerivative;
+        public NeuralLayer(int size, int inputCount, Func<double, double> activationFunc, Func<double, double> activationDerivative)
         {
             Size = size;
             m_activationFunc = activationFunc;
+            m_activationDerivative = activationDerivative;
             Neurons = new List<Neuron>(size);
             for (var i = 0; i < size; i++)
             {
@@ -35,16 +37,16 @@ namespace PopulationWars.HomeGrownNetwork
             }
         }
 
-        public double[] BackPropogate(double[] givenOutputs, double[] reversedOutputs)
+        public double[] BackPropagate(double[] givenOutputs, double[] reversedOutputs)
         {
             var results = new double[Size];
             for (var i = 0; i < Size; i++)
             {
-                for (var k = 0; k < Size; k++)
+                foreach (double w in Neurons[i].Weights)
                 {
-                    results[i] += reversedOutputs[i] * Neurons[i].Weights[k];
+                    results[i] += reversedOutputs[i] * w;
                 }
-                results[i] *= 1 - Math.Pow(givenOutputs[i], 2);
+                results[i] *= 1 -m_activationDerivative(reversedOutputs[i]);
             }
             return results;
         }

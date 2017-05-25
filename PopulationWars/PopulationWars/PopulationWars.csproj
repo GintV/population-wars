@@ -113,6 +113,11 @@
     <Compile Include="Utilities\Settings.cs" />
     <Compile Include="Map\Tile.cs" />
     <Compile Include="Map\World.cs" />
+    <Compile Include="HomeGrownNetwork\InputLayer.cs" />
+    <Compile Include="HomeGrownNetwork\NeuralLayer.cs" />
+    <Compile Include="HomeGrownNetwork\NeuralNetwork.cs" />
+    <Compile Include="HomeGrownNetwork\Neuron.cs" />
+    <Compile Include="HomeGrownNetwork\OutputLayer.cs" />
     <Compile Include="WorldMapWindow.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -12,7 +12,7 @@ namespace PopulationWars.HomeGrownNetwork
 
         private double m_bias;
         public double[] Weights { get; }
-        public double Calculate(double[] inputs) => inputs.Select((t, i) => t * Weights[i] + m_bias).Sum();
+        public double Calculate(double[] inputs) => inputs.Select((t, i) => t * Weights[i]).Sum() + m_bias;
 
         public void AlterWeights(double[] deltaWeights, double deltaBias)
         {

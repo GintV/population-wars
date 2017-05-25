@@ -8,18 +8,18 @@ namespace PopulationWars.HomeGrownNetwork
         private readonly List<NeuralLayer> m_layers;
         private readonly double m_learningRate;
 
-        public NeuralNetwork(IReadOnlyList<int> layerSizes, double learningRate) : this(layerSizes, learningRate, Math.Tanh)
+        public NeuralNetwork(IReadOnlyList<int> layerSizes, double learningRate) : this(layerSizes, learningRate, Math.Tanh, x => 1 - Math.Pow(Math.Tanh(x), 2))
         {
         }
 
-        public NeuralNetwork(IReadOnlyList<int> layerSizes, double learningRate, Func<double, double> activationFunc)
+        public NeuralNetwork(IReadOnlyList<int> layerSizes, double learningRate, Func<double, double> activationFunc, Func<double, double> activationDerivative)
         {
             m_learningRate = learningRate;
             m_layers = new List<NeuralLayer>(layerSizes.Count) { new InputLayer(layerSizes[0], activationFunc) };
             var previousSize = layerSizes[0];
             for (var i = 1; i < layerSizes.Count - 1; i++)
             {
-                m_layers.Add(new NeuralLayer(layerSizes[i], previousSize, activationFunc));
+                m_layers.Add(new NeuralLayer(layerSizes[i], previousSize, activationFunc, activationDerivative));
                 previousSize = layerSizes[i];
             }
             m_layers.Add(new OutputLayer(layerSizes[layerSizes.Count - 1], previousSize));
