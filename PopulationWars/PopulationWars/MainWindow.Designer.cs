@@ -53,7 +53,16 @@ namespace PopulationWars
             this.environmentPanel = new System.Windows.Forms.Panel();
             this.playersAndControlsPanel = new System.Windows.Forms.Panel();
             this.gameControlGroupBox = new System.Windows.Forms.GroupBox();
+            this.skipCheckBox = new System.Windows.Forms.CheckBox();
             this.directionGroupBox = new System.Windows.Forms.GroupBox();
+            this.radioButton9 = new System.Windows.Forms.RadioButton();
+            this.radioButton8 = new System.Windows.Forms.RadioButton();
+            this.radioButton7 = new System.Windows.Forms.RadioButton();
+            this.radioButton6 = new System.Windows.Forms.RadioButton();
+            this.radioButton5 = new System.Windows.Forms.RadioButton();
+            this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.label4 = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
@@ -71,15 +80,7 @@ namespace PopulationWars
             this.nextGameTurnButton = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.simulationSpeedNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.radioButton5 = new System.Windows.Forms.RadioButton();
-            this.radioButton6 = new System.Windows.Forms.RadioButton();
-            this.radioButton7 = new System.Windows.Forms.RadioButton();
-            this.radioButton8 = new System.Windows.Forms.RadioButton();
-            this.radioButton9 = new System.Windows.Forms.RadioButton();
-            this.skipCheckBox = new System.Windows.Forms.CheckBox();
+            this.gAGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
             this.playersAndControlsPanel.SuspendLayout();
@@ -108,44 +109,45 @@ namespace PopulationWars
             // newGameToolStripMenuItem
             // 
             this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
-            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newGameToolStripMenuItem.Text = "New Game...";
             this.newGameToolStripMenuItem.Click += new System.EventHandler(this.newGameToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(148, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(149, 6);
             // 
             // trainNationToolStripMenuItem
             // 
             this.trainNationToolStripMenuItem.Name = "trainNationToolStripMenuItem";
-            this.trainNationToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.trainNationToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.trainNationToolStripMenuItem.Text = "Train Nation...";
             this.trainNationToolStripMenuItem.Click += new System.EventHandler(this.trainNationToolStripMenuItem_Click);
             // 
             // saveNationsToolStripMenuItem
             // 
             this.saveNationsToolStripMenuItem.Name = "saveNationsToolStripMenuItem";
-            this.saveNationsToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.saveNationsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveNationsToolStripMenuItem.Text = "Save Nations...";
             this.saveNationsToolStripMenuItem.Click += new System.EventHandler(this.saveNationsToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(148, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // gameToolStripMenuItem
             // 
             this.gameToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.startGameToolStripMenuItem,
+            this.gAGameToolStripMenuItem,
             this.resetGameToolStripMenuItem,
             this.toolStripSeparator1,
             this.addPlayerToolStripMenuItem,
@@ -285,6 +287,16 @@ namespace PopulationWars
             this.gameControlGroupBox.TabStop = false;
             this.gameControlGroupBox.Text = "Game controls";
             // 
+            // skipCheckBox
+            // 
+            this.skipCheckBox.AutoSize = true;
+            this.skipCheckBox.Location = new System.Drawing.Point(167, 115);
+            this.skipCheckBox.Name = "skipCheckBox";
+            this.skipCheckBox.Size = new System.Drawing.Size(136, 17);
+            this.skipCheckBox.TabIndex = 10;
+            this.skipCheckBox.Text = "Skip the rest of the turn";
+            this.skipCheckBox.UseVisualStyleBackColor = true;
+            // 
             // directionGroupBox
             // 
             this.directionGroupBox.Controls.Add(this.radioButton9);
@@ -302,6 +314,110 @@ namespace PopulationWars
             this.directionGroupBox.TabIndex = 9;
             this.directionGroupBox.TabStop = false;
             this.directionGroupBox.Text = "Direction";
+            // 
+            // radioButton9
+            // 
+            this.radioButton9.Appearance = System.Windows.Forms.Appearance.Button;
+            this.radioButton9.BackgroundImage = global::PopulationWars.Properties.Resources.down_right;
+            this.radioButton9.Location = new System.Drawing.Point(77, 91);
+            this.radioButton9.Name = "radioButton9";
+            this.radioButton9.Size = new System.Drawing.Size(30, 30);
+            this.radioButton9.TabIndex = 8;
+            this.radioButton9.TabStop = true;
+            this.radioButton9.Tag = "4";
+            this.radioButton9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radioButton9.UseVisualStyleBackColor = true;
+            // 
+            // radioButton8
+            // 
+            this.radioButton8.Appearance = System.Windows.Forms.Appearance.Button;
+            this.radioButton8.BackgroundImage = global::PopulationWars.Properties.Resources.down;
+            this.radioButton8.Location = new System.Drawing.Point(41, 91);
+            this.radioButton8.Name = "radioButton8";
+            this.radioButton8.Size = new System.Drawing.Size(30, 30);
+            this.radioButton8.TabIndex = 7;
+            this.radioButton8.TabStop = true;
+            this.radioButton8.Tag = "5";
+            this.radioButton8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radioButton8.UseVisualStyleBackColor = true;
+            // 
+            // radioButton7
+            // 
+            this.radioButton7.Appearance = System.Windows.Forms.Appearance.Button;
+            this.radioButton7.BackgroundImage = global::PopulationWars.Properties.Resources.down_left;
+            this.radioButton7.Location = new System.Drawing.Point(5, 91);
+            this.radioButton7.Name = "radioButton7";
+            this.radioButton7.Size = new System.Drawing.Size(30, 30);
+            this.radioButton7.TabIndex = 6;
+            this.radioButton7.TabStop = true;
+            this.radioButton7.Tag = "6";
+            this.radioButton7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radioButton7.UseVisualStyleBackColor = true;
+            // 
+            // radioButton6
+            // 
+            this.radioButton6.Appearance = System.Windows.Forms.Appearance.Button;
+            this.radioButton6.BackgroundImage = global::PopulationWars.Properties.Resources.right;
+            this.radioButton6.Location = new System.Drawing.Point(77, 55);
+            this.radioButton6.Name = "radioButton6";
+            this.radioButton6.Size = new System.Drawing.Size(30, 30);
+            this.radioButton6.TabIndex = 5;
+            this.radioButton6.TabStop = true;
+            this.radioButton6.Tag = "3";
+            this.radioButton6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radioButton6.UseVisualStyleBackColor = true;
+            // 
+            // radioButton5
+            // 
+            this.radioButton5.Appearance = System.Windows.Forms.Appearance.Button;
+            this.radioButton5.BackgroundImage = global::PopulationWars.Properties.Resources.center;
+            this.radioButton5.Location = new System.Drawing.Point(41, 55);
+            this.radioButton5.Name = "radioButton5";
+            this.radioButton5.Size = new System.Drawing.Size(30, 30);
+            this.radioButton5.TabIndex = 4;
+            this.radioButton5.TabStop = true;
+            this.radioButton5.Tag = "0";
+            this.radioButton5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radioButton5.UseVisualStyleBackColor = true;
+            // 
+            // radioButton4
+            // 
+            this.radioButton4.Appearance = System.Windows.Forms.Appearance.Button;
+            this.radioButton4.BackgroundImage = global::PopulationWars.Properties.Resources.left;
+            this.radioButton4.Location = new System.Drawing.Point(5, 55);
+            this.radioButton4.Name = "radioButton4";
+            this.radioButton4.Size = new System.Drawing.Size(30, 30);
+            this.radioButton4.TabIndex = 3;
+            this.radioButton4.TabStop = true;
+            this.radioButton4.Tag = "7";
+            this.radioButton4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radioButton4.UseVisualStyleBackColor = true;
+            // 
+            // radioButton3
+            // 
+            this.radioButton3.Appearance = System.Windows.Forms.Appearance.Button;
+            this.radioButton3.BackgroundImage = global::PopulationWars.Properties.Resources.up_left;
+            this.radioButton3.Location = new System.Drawing.Point(5, 19);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(30, 30);
+            this.radioButton3.TabIndex = 2;
+            this.radioButton3.TabStop = true;
+            this.radioButton3.Tag = "8";
+            this.radioButton3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radioButton3.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.Appearance = System.Windows.Forms.Appearance.Button;
+            this.radioButton2.BackgroundImage = global::PopulationWars.Properties.Resources.up_right;
+            this.radioButton2.Location = new System.Drawing.Point(77, 19);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(30, 30);
+            this.radioButton2.TabIndex = 1;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Tag = "2";
+            this.radioButton2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radioButton2.UseVisualStyleBackColor = true;
             // 
             // radioButton1
             // 
@@ -506,119 +622,12 @@ namespace PopulationWars
             0});
             this.simulationSpeedNumericUpDown.ValueChanged += new System.EventHandler(this.simulationSpeedNumericUpDown_ValueChanged);
             // 
-            // radioButton2
+            // gAGameToolStripMenuItem
             // 
-            this.radioButton2.Appearance = System.Windows.Forms.Appearance.Button;
-            this.radioButton2.BackgroundImage = global::PopulationWars.Properties.Resources.up_right;
-            this.radioButton2.Location = new System.Drawing.Point(77, 19);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(30, 30);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Tag = "2";
-            this.radioButton2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radioButton2.UseVisualStyleBackColor = true;
-            // 
-            // radioButton3
-            // 
-            this.radioButton3.Appearance = System.Windows.Forms.Appearance.Button;
-            this.radioButton3.BackgroundImage = global::PopulationWars.Properties.Resources.up_left;
-            this.radioButton3.Location = new System.Drawing.Point(5, 19);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(30, 30);
-            this.radioButton3.TabIndex = 2;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Tag = "8";
-            this.radioButton3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radioButton3.UseVisualStyleBackColor = true;
-            // 
-            // radioButton4
-            // 
-            this.radioButton4.Appearance = System.Windows.Forms.Appearance.Button;
-            this.radioButton4.BackgroundImage = global::PopulationWars.Properties.Resources.left;
-            this.radioButton4.Location = new System.Drawing.Point(5, 55);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(30, 30);
-            this.radioButton4.TabIndex = 3;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Tag = "7";
-            this.radioButton4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radioButton4.UseVisualStyleBackColor = true;
-            // 
-            // radioButton5
-            // 
-            this.radioButton5.Appearance = System.Windows.Forms.Appearance.Button;
-            this.radioButton5.BackgroundImage = global::PopulationWars.Properties.Resources.center;
-            this.radioButton5.Location = new System.Drawing.Point(41, 55);
-            this.radioButton5.Name = "radioButton5";
-            this.radioButton5.Size = new System.Drawing.Size(30, 30);
-            this.radioButton5.TabIndex = 4;
-            this.radioButton5.TabStop = true;
-            this.radioButton5.Tag = "0";
-            this.radioButton5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radioButton5.UseVisualStyleBackColor = true;
-            // 
-            // radioButton6
-            // 
-            this.radioButton6.Appearance = System.Windows.Forms.Appearance.Button;
-            this.radioButton6.BackgroundImage = global::PopulationWars.Properties.Resources.right;
-            this.radioButton6.Location = new System.Drawing.Point(77, 55);
-            this.radioButton6.Name = "radioButton6";
-            this.radioButton6.Size = new System.Drawing.Size(30, 30);
-            this.radioButton6.TabIndex = 5;
-            this.radioButton6.TabStop = true;
-            this.radioButton6.Tag = "3";
-            this.radioButton6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radioButton6.UseVisualStyleBackColor = true;
-            // 
-            // radioButton7
-            // 
-            this.radioButton7.Appearance = System.Windows.Forms.Appearance.Button;
-            this.radioButton7.BackgroundImage = global::PopulationWars.Properties.Resources.down_left;
-            this.radioButton7.Location = new System.Drawing.Point(5, 91);
-            this.radioButton7.Name = "radioButton7";
-            this.radioButton7.Size = new System.Drawing.Size(30, 30);
-            this.radioButton7.TabIndex = 6;
-            this.radioButton7.TabStop = true;
-            this.radioButton7.Tag = "6";
-            this.radioButton7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radioButton7.UseVisualStyleBackColor = true;
-            // 
-            // radioButton8
-            // 
-            this.radioButton8.Appearance = System.Windows.Forms.Appearance.Button;
-            this.radioButton8.BackgroundImage = global::PopulationWars.Properties.Resources.down;
-            this.radioButton8.Location = new System.Drawing.Point(41, 91);
-            this.radioButton8.Name = "radioButton8";
-            this.radioButton8.Size = new System.Drawing.Size(30, 30);
-            this.radioButton8.TabIndex = 7;
-            this.radioButton8.TabStop = true;
-            this.radioButton8.Tag = "5";
-            this.radioButton8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radioButton8.UseVisualStyleBackColor = true;
-            // 
-            // radioButton9
-            // 
-            this.radioButton9.Appearance = System.Windows.Forms.Appearance.Button;
-            this.radioButton9.BackgroundImage = global::PopulationWars.Properties.Resources.down_right;
-            this.radioButton9.Location = new System.Drawing.Point(77, 91);
-            this.radioButton9.Name = "radioButton9";
-            this.radioButton9.Size = new System.Drawing.Size(30, 30);
-            this.radioButton9.TabIndex = 8;
-            this.radioButton9.TabStop = true;
-            this.radioButton9.Tag = "4";
-            this.radioButton9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radioButton9.UseVisualStyleBackColor = true;
-            // 
-            // skipCheckBox
-            // 
-            this.skipCheckBox.AutoSize = true;
-            this.skipCheckBox.Location = new System.Drawing.Point(167, 115);
-            this.skipCheckBox.Name = "skipCheckBox";
-            this.skipCheckBox.Size = new System.Drawing.Size(136, 17);
-            this.skipCheckBox.TabIndex = 10;
-            this.skipCheckBox.Text = "Skip the rest of the turn";
-            this.skipCheckBox.UseVisualStyleBackColor = true;
+            this.gAGameToolStripMenuItem.Name = "gAGameToolStripMenuItem";
+            this.gAGameToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.gAGameToolStripMenuItem.Text = "GA game...";
+            this.gAGameToolStripMenuItem.Click += new System.EventHandler(this.gAGameToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
@@ -703,6 +712,7 @@ namespace PopulationWars
         private RadioButton radioButton3;
         private RadioButton radioButton2;
         private CheckBox skipCheckBox;
+        private ToolStripMenuItem gAGameToolStripMenuItem;
     }
 }
 

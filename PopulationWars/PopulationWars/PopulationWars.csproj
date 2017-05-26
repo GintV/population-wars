@@ -77,6 +77,12 @@
     <Compile Include="CreateAgentDialog.Designer.cs">
       <DependentUpon>CreateAgentDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="GADialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GADialog.Designer.cs">
+      <DependentUpon>GADialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Mechanics\DataParser.cs" />
     <Compile Include="Components\Governments\IGovernment.cs" />
     <Compile Include="Mechanics\Game.cs" />

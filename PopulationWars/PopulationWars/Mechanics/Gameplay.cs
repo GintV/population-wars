@@ -209,7 +209,7 @@ namespace PopulationWars.Mechanics
                 while (HoldOn)
                     Thread.Sleep(1000);
 
-                if (!SkipPlayerTurn && !SkipGameTurn)
+                if (!SkipPlayerTurn && !SkipGameTurn && Speed < 15)
                     Thread.Sleep(2048 / Speed);
             });
         }

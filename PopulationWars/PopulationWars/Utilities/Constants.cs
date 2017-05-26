@@ -18,6 +18,12 @@
             AForgeNetwork
         }
 
+        public enum GameType
+        {
+            Normal,
+            GaGame
+        }
+
         public static class GameSettings
         {
             public static class Default

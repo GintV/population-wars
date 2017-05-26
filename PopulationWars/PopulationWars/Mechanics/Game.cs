@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using PopulationWars.Map;
 using PopulationWars.Utilities;
+using static PopulationWars.Utilities.Constants;
 
 namespace PopulationWars.Mechanics
 {
@@ -35,10 +36,18 @@ namespace PopulationWars.Mechanics
 
         public void StartGame(Action<Tuple<int, int>, Color, int> tileUpdateAction,
             Action<Tuple<int, int>> environmentLoadAction, Action gameResultShowAction,
-            Action<bool> humanPlayerMoveRequestAction)
+            Action<bool> humanPlayerMoveRequestAction, GameType gameType)
         {
-            Gameplay.SetActions(tileUpdateAction, environmentLoadAction, gameResultShowAction,
-                humanPlayerMoveRequestAction);
+            if (gameType == GameType.Normal)
+            {
+                Gameplay.SetActions(tileUpdateAction, environmentLoadAction, gameResultShowAction,
+                    humanPlayerMoveRequestAction);
+            }
+            else
+            {
+                Gameplay.SetActions((a, b, c) => { }, (a) => { }, gameResultShowAction, (a) => { });
+            }
+
             Gameplay.CreateInitialColonies();
             Gameplay.Play();
         }

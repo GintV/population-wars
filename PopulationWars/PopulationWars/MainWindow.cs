@@ -8,6 +8,7 @@ using static PopulationWars.Utilities.Constants.GameAction;
 using System.Linq;
 using System.Collections.Generic;
 using PopulationWars.Components;
+using static PopulationWars.Utilities.Constants;
 
 namespace PopulationWars
 {
@@ -16,6 +17,11 @@ namespace PopulationWars
         private Game m_game;
         private List<Nation> m_nations;
         private List<TrainSet> m_trainSets;
+
+        private GameType m_gameType;
+        private int m_gaPlayers;
+        private int m_gaGenerations;
+        private int m_gaCurrentGen;
 
         private Panel[,] m_environment;
         private WorldMapWindow m_worldMap;
@@ -136,21 +142,42 @@ namespace PopulationWars
 
         private void ShowGameResult()
         {
-            var players = m_game.Players.OrderByDescending(player => player.Colonies.Count);
-
-            m_trainSets.AddRange(m_game.Gameplay.TrainSets);
-            DataParser.Serialize(m_trainSets);
-
-            Invoke((MethodInvoker)delegate
+            if (m_gameType == GameType.Normal)
             {
-                ResetGameToolStripEnabled(true);
-                GameplayControlGroupBoxEnabled(false);
-            });
 
-            MessageBox.Show("Game has finished! Here are the result:\n" +
-                players.Select(player => $"{player}: {player.Colonies.Count}").
-                Aggregate((p1, p2) => p1 + "\n" + p2), "Information",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                var players = m_game.Players.OrderByDescending(player => player.Colonies.Count);
+
+                m_trainSets.AddRange(m_game.Gameplay.TrainSets);
+                DataParser.Serialize(m_trainSets);
+
+                Invoke((MethodInvoker)delegate
+                {
+                    ResetGameToolStripEnabled(true);
+                    GameplayControlGroupBoxEnabled(false);
+                });
+
+                MessageBox.Show("Game has finished! Here are the result:\n" +
+                    players.Select(player => $"{player}: {player.Colonies.Count}").
+                    Aggregate((p1, p2) => p1 + "\n" + p2), "Information",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                ClearEnvironmentPanel();
+                m_worldMap.Close();
+                m_worldMap.Dispose(); // this is needed as we override OnFormClosing()
+
+                var players = m_game.Players;
+                players.ForEach(player => player.Colonies.Clear());
+
+                ShowWorldMap();
+                GameToolStripEnabled(true);
+                PlayersAndStartGameToolStripsEnabled(true);
+                ResetGameToolStripEnabled(false);
+                LoadEnvironment();
+
+                GaCycle(++m_gaCurrentGen);
+            }
         }
 
         private void ShowWorldMap() => m_worldMap.Show();
@@ -240,7 +267,7 @@ namespace PopulationWars
             PlayersAndStartGameToolStripsEnabled(false);
             GameplayControlGroupBoxEnabled(true);
             m_game.StartGame(m_worldMap.UpdateTile, ClearAndLoadEnvironment, ShowGameResult,
-                GameControlGroupBox);
+                GameControlGroupBox, m_gameType = GameType.Normal);
         }
 
         private void simulationSpeedNumericUpDown_ValueChanged(object sender, EventArgs e) =>
@@ -333,5 +360,49 @@ namespace PopulationWars
                 e.ClipRectangle.Height - width);
             pen.Dispose();
         }
+
+        private void gAGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var form = new GADialog())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    m_gameType = GameType.GaGame;
+                    m_gaPlayers = form.NumberOfPlayers;
+                    m_gaGenerations = form.NumberOfGenerations;
+                    GaCycle(m_gaCurrentGen = 0);
+                }
+            }
+        }
+
+        private void GaCycle(int currentGeneration)
+        {
+            var gen = currentGeneration;
+
+            if (currentGeneration == 0) // create new players
+            {
+
+                for (var i = 0; i < m_gaPlayers; ++i)
+                {
+                    //m_game.AddPlayer(new Player(i + gen, true, new Nation(i + gen, /**/);
+                }
+
+            }
+            else if (currentGeneration < m_gaGenerations) // delete worst players, copy best ones and mutate them
+            {
+
+            }
+            else
+            {
+                // save the best
+            }
+
+           
+            PlayersAndStartGameToolStripsEnabled(false);
+            GameplayControlGroupBoxEnabled(true);
+            m_game.StartGame(m_worldMap.UpdateTile, ClearAndLoadEnvironment, ShowGameResult,
+                 GameControlGroupBox, GameType.GaGame);
+        }
+
     }
 }
