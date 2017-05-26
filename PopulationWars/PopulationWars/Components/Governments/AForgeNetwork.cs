@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using AForge.Neuro;
 using AForge.Neuro.Learning;
 using PopulationWars.Map;
 using PopulationWars.Mechanics;
+
 
 namespace PopulationWars.Components.Governments
 {
@@ -13,26 +15,44 @@ namespace PopulationWars.Components.Governments
 
         private static readonly int[] m_layers = { 5, 4 }; // Paskutinis yra output
         private static readonly int m_inputsCount = 5;
-        private ActivationNetwork m_network;
+        private ActivationNetwork m_network1;
+        private ActivationNetwork m_network2;
+        private ActivationNetwork m_network3;
+        private ActivationNetwork m_network4;
         private SigmoidFunction m_activationFunc;
 
         public AForgeNetwork()
         {
             m_activationFunc = new SigmoidFunction();
-            m_network = new ActivationNetwork(m_activationFunc, m_inputsCount, m_layers);
+            m_network1 = new ActivationNetwork(m_activationFunc, m_inputsCount, m_layers);
+            m_network2 = new ActivationNetwork(m_activationFunc, m_inputsCount, m_layers);
+            m_network3 = new ActivationNetwork(m_activationFunc, m_inputsCount, m_layers);
+            m_network4 = new ActivationNetwork(m_activationFunc, m_inputsCount, new int[] { 4 });
         }
 
         public object Clone()
         {
-            var netw = new System.IO.MemoryStream();
-            m_network.Save(netw);
+            var netw1 = new System.IO.MemoryStream();
+            var netw2 = new System.IO.MemoryStream();
+            var netw3 = new System.IO.MemoryStream();
+            var netw4 = new System.IO.MemoryStream();
+            m_network1.Save(netw1);
+            m_network2.Save(netw2);
+            m_network3.Save(netw3);
+            m_network4.Save(netw4);
 
             var clone = new AForgeNetwork()
             {
                 m_activationFunc = (SigmoidFunction)m_activationFunc.Clone(),
-                m_network = (ActivationNetwork)Network.Load(netw)
+                m_network1 = (ActivationNetwork)Network.Load(netw1),
+                m_network2 = (ActivationNetwork)Network.Load(netw2),
+                m_network3 = (ActivationNetwork)Network.Load(netw3),
+                m_network4 = (ActivationNetwork)Network.Load(netw4)
             };
-            netw.Close();
+            netw1.Close();
+            netw2.Close();
+            netw3.Close();
+            netw4.Close();
 
             return clone;
         }
@@ -41,44 +61,121 @@ namespace PopulationWars.Components.Governments
         {
             double[] sides = SimplifyEnvironment(situation.Environment);
             double[] input = { situation.ColonyPopulation, sides[0], sides[1], sides[2], sides[3] };
-            double[] output = m_network.Compute(input);
-            
-            bool outIsLeaving = output[0] > 0 ? true : false;
-            double outPopulationToMove = output[1];
-            Direction outDirection = DirectionFromVector(output[2], output[3]);
+            double[][] output = {   m_network1.Compute(input),
+                                    m_network2.Compute(input),
+                                    /*m_network3.Compute(input),*/
+                                    m_network4.Compute(input)};
 
-            outIsLeaving = outDirection == Direction.None ? false : true;
+            if (false) // false - be balsavimo ima pirma tinkla
+            {
+                bool outIsLeaving = output[0][0] > 0 ? true : false;
+                double outPopulationToMove = output[0][1];
+                Direction outDirection = DirectionFromVector(output[0][2], output[0][3]);
 
-            return new Decision(outIsLeaving, outDirection, outPopulationToMove);
+                outIsLeaving = outDirection == Direction.None ? false : true;
+
+                return new Decision(outIsLeaving, outDirection, outPopulationToMove);
+            }
+            else
+            {
+                int isLeavingCount = 0;
+                double[] votedOutput = { 0.0, 0.0, 0.0, 0.0 };
+                foreach (var item in output)
+                {
+                    if (item[0] > 0) isLeavingCount++;
+                    votedOutput[1] += item[1];
+                    votedOutput[2] += item[2];
+                    votedOutput[3] += item[3];
+                }
+
+                bool outIsLeaving = votedOutput[0] > 0 ? true : false;
+                double outPopulationToMove = votedOutput[1]/ votedOutput.Count();
+                Direction outDirection = DirectionFromVector(votedOutput[2]/votedOutput.Count(), votedOutput[3]/votedOutput.Count());
+
+                outIsLeaving = outDirection == Direction.None ? false : true;
+
+                return new Decision(outIsLeaving, outDirection, outPopulationToMove);
+            }
         }
 
         public void Train(TrainSet trainSet)
         {
-            BackPropagationLearning teacher = new BackPropagationLearning(m_network);
+            TrainNetworkS(trainSet, new BackPropagationLearning(m_network1));
+            TrainNetworkS(trainSet, new ResilientBackpropagationLearning(m_network2));
+            //TrainNetworkE(trainSet, new EvolutionaryLearning(m_network3, 1000));
+            TrainNetworkS(trainSet, new DeltaRuleLearning(m_network4));
+        }
+
+        private void TrainNetworkS(TrainSet trainSet, ISupervisedLearning teacher)
+        {
             double[] sides = new double[4];
             double[] direction = new double[2];
             double[] input = new double[5];
             double[] output = new double[4];
-            
-            for(int s = 0; s < trainSet.Situation.Count; s++)
+
+            double error = 10;
+            int epoch = 10000;
+
+            while (epoch--> 0)
             {
-                sides = SimplifyEnvironment(trainSet.Situation[s].Environment);
-                direction = VectorFromDirection(trainSet.Decision[s].Direction);
+                for (int s = 0; s < trainSet.Situation.Count; s++)
+                {
+                    sides = SimplifyEnvironment(trainSet.Situation[s].Environment);
+                    direction = VectorFromDirection(trainSet.Decision[s].Direction);
 
-                // INPUT
-                input[0] = trainSet.Situation[s].ColonyPopulation;
-                input[1] = sides[0]; // UP
-                input[2] = sides[1]; // RIGHT
-                input[3] = sides[2]; // DOWN
-                input[4] = sides[3]; // LEFT
+                    // INPUT
+                    input[0] = trainSet.Situation[s].ColonyPopulation;
+                    input[1] = sides[0]; // UP
+                    input[2] = sides[1]; // RIGHT
+                    input[3] = sides[2]; // DOWN
+                    input[4] = sides[3]; // LEFT
 
-                // OUTPUT
-                output[0] = trainSet.Decision[s].IsLeaving ? 1 : -1;
-                output[1] = trainSet.Decision[s].PopulationToMove;
-                output[2] = direction[0]; // X
-                output[3] = direction[0]; // Y
+                    // OUTPUT
+                    output[0] = trainSet.Decision[s].IsLeaving ? 1 : -1;
+                    output[1] = trainSet.Decision[s].PopulationToMove;
+                    output[2] = direction[0]; // X
+                    output[3] = direction[1]; // Y
 
-                teacher.Run(input, output);
+                    error = teacher.Run(input, output);
+                }
+                Debug.Print(error.ToString());
+            }
+        }
+
+        private void TrainNetworkE(TrainSet trainSet, EvolutionaryLearning teacher)
+        {
+            double[] sides = new double[4];
+            double[] direction = new double[2];
+            double[] input = new double[5];
+            double[] output = new double[4];
+
+            double error = 10;
+            int epoch = 10000;
+
+            while (epoch-- > 0)
+            {
+                for (int s = 0; s < trainSet.Situation.Count; s++)
+                {
+                    sides = SimplifyEnvironment(trainSet.Situation[s].Environment);
+                    direction = VectorFromDirection(trainSet.Decision[s].Direction);
+
+                    // INPUT
+                    input[0] = trainSet.Situation[s].ColonyPopulation;
+                    input[1] = sides[0]; // UP
+                    input[2] = sides[1]; // RIGHT
+                    input[3] = sides[2]; // DOWN
+                    input[4] = sides[3]; // LEFT
+
+                    // OUTPUT
+                    output[0] = trainSet.Decision[s].IsLeaving ? 1 : -1;
+                    output[1] = trainSet.Decision[s].PopulationToMove;
+                    output[2] = direction[0]; // X
+                    output[3] = direction[1]; // Y
+
+                    error = teacher.RunEpoch(new double[][] { input }, new double[][] { output });
+                }
+
+                Debug.Print(error.ToString());
             }
         }
 
