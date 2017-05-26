@@ -157,7 +157,8 @@
             this.governmentListBox.Items.AddRange(new object[] {
             "Anarchy",
             "HomeGrownNetwork",
-            "AForgeNetwork"});
+            "AForgeNetwork",
+            "AgentBot"});
             this.governmentListBox.Location = new System.Drawing.Point(115, 80);
             this.governmentListBox.Name = "governmentListBox";
             this.governmentListBox.Size = new System.Drawing.Size(100, 43);
