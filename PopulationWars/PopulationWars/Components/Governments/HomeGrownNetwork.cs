@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using PopulationWars.HomeGrownNetwork;
 using PopulationWars.Mechanics;
@@ -10,16 +11,14 @@ namespace PopulationWars.Components.Governments
     {
         private const int OutputSize = 9;
         private const double TestSetPercentage = 20.0;
-        private const int MaxEpochs = 1500;
-        private const double GoalError = 0.00002;
+        private const int MaxEpochs = 3000;
+        private const double GoalError = 0.0002;
         private const double PopulationToMove = 0.5;
-        private const double LearningRate = 0.00001;
-        private static readonly int[] HiddenLayerSizes = { 50, 20, 50 };
+        private const double LearningRate = 0.005;
+        private static readonly int[] HiddenLayerSizes = { 50 };
 
         private NeuralNetwork m_network;
         private int m_inputSize;
-
-        public HomeGrownNetwork() { }
 
         public object Clone()
         {
@@ -48,12 +47,40 @@ namespace PopulationWars.Components.Governments
             {
                 throw new Exception("Training set input variables doesn't match neural networks input structure.");
             }
-            for (var i = 0; i < trainSet.Situation.Count; i++)
+            /*
+            var directionCount = (
+                from object direction in Enum.GetValues(typeof(Direction))
+                select trainSet.Decision.Count(d => d.Direction == (Direction)direction)).ToList();
+            var minCount = directionCount.Min();
+            directionCount = directionCount.Select(cnt => cnt - minCount).ToList();
+            while (directionCount.Sum() != 0)
             {
-                if (trainSet.Decision[i].Direction == Direction.None)
+                var ran = new Random();
+                for (var i = 0; i < trainSet.Situation.Count; i++)
                 {
-                    trainSet.Decision[i] = null;
-                    trainSet.Situation[i] = null;
+                    if (trainSet.Decision[i] != null &&
+                        directionCount[(int)trainSet.Decision[i].Direction] > 0
+                        && ran.NextDouble() > 0.5)
+                    {
+                        directionCount[(int)trainSet.Decision[i].Direction]--;
+                        trainSet.Decision[i] = null;
+                        trainSet.Situation[i] = null;
+                    }
+                }
+            }
+            */
+            var setSize = trainSet.Decision.Count;
+            while (trainSet.Decision.Count(d => d?.Direction == Direction.None) > setSize / 6)
+            {
+                var ran = new Random();
+                for (var i = 0; i < trainSet.Decision.Count; i++)
+                {
+                    if (trainSet.Decision[i]?.Direction == Direction.None && ran.NextDouble() > 0.6)
+                    {
+                        trainSet.Decision[i] = null;
+                        trainSet.Situation[i] = null;
+                        setSize--;
+                    }
                 }
             }
             trainSet.Decision = trainSet.Decision.Where(d => d != null).ToList();
