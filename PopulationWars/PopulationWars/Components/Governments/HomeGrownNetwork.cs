@@ -11,7 +11,7 @@ namespace PopulationWars.Components.Governments
     {
         private const int OutputSize = 9;
         private const double TestSetPercentage = 20.0;
-        private const int MaxEpochs = 3000;
+        private const int MaxEpochs = 1000;
         private const double GoalError = 0.0002;
         private const double PopulationToMove = 0.5;
         private const double LearningRate = 0.005;

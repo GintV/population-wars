@@ -51,6 +51,7 @@ namespace PopulationWars.HomeGrownNetwork
         {
             var iteration = 0;
             var error = double.MaxValue;
+            var previousTestError = double.MaxValue;
             var testSetSize = (int)(inputs.Length * testSetPercentage / 100);
             var trainSetSize = inputs.Length - testSetSize;
             while (iteration++ < maxEpochs && error > goalError)
@@ -67,10 +68,6 @@ namespace PopulationWars.HomeGrownNetwork
                         outputStack.Push(currentInputs);
                     }
                     error += CalculateLoss(outputs[i], currentInputs);
-                    if (Double.IsNaN(error))
-                    {
-                        Console.WriteLine("shit hit the fan");
-                    }
                     var reversedOutputs = ((OutputLayer) m_layers[m_layers.Count - 1]).ReverseActivation(outputStack.Pop(), outputs[i]);
                     foreach (var layer in Enumerable.Reverse(m_layers))
                     {
@@ -80,9 +77,18 @@ namespace PopulationWars.HomeGrownNetwork
                         layer.AlterParameters(parametersDeltas.Item1, parametersDeltas.Item2);
                     }
                 }
+                var testError = 0.0;
+                for (int i = 0; i < testSetSize; i++)
+                {
+                    testError += CalculateLoss(outputs[i + trainSetSize], Predict(inputs[i + trainSetSize]));
+                }
+                if (testError > previousTestError)
+                {
+                    //break;
+                }
+                previousTestError = testError;
                 error = -1 * error / trainSetSize;
             }
-            Console.WriteLine("Last error: " + error);
         }
 
         private static double CalculateLoss(double[] expected, double[] predicted)
