@@ -129,7 +129,7 @@ namespace PopulationWars
             var selectedGovernment = governmentListBox.SelectedItem.ToString();
             var government = selectedGovernment == GovernmentType.Anarchy.ToString() ?
                  new Anarchy() : selectedGovernment == GovernmentType.HomeGrownNetwork.ToString() ?
-                (IGovernment)new Components.Governments.HomeGrownNetwork() : new Anarchy();
+                (IGovernment)new Components.Governments.HomeGrownNetwork() : new AForgeNetwork();
 
             var nation = nationListBox.SelectedIndex == 0 ?
                 new Nation(nationName, government) :

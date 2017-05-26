@@ -14,7 +14,8 @@
         public enum GovernmentType
         {
             Anarchy,
-            HomeGrownNetwork
+            HomeGrownNetwork,
+            AForgeNetwork
         }
 
         public static class GameSettings

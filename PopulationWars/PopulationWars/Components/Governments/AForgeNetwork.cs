@@ -7,6 +7,7 @@ using PopulationWars.Mechanics;
 
 namespace PopulationWars.Components.Governments
 {
+    [Serializable]
     class AForgeNetwork : IGovernment
     {
 
@@ -15,7 +16,7 @@ namespace PopulationWars.Components.Governments
         private ActivationNetwork m_network;
         private SigmoidFunction m_activationFunc;
 
-        AForgeNetwork()
+        public AForgeNetwork()
         {
             m_activationFunc = new SigmoidFunction();
             m_network = new ActivationNetwork(m_activationFunc, m_inputsCount, m_layers);
@@ -45,6 +46,8 @@ namespace PopulationWars.Components.Governments
             bool outIsLeaving = output[0] > 0 ? true : false;
             double outPopulationToMove = output[1];
             Direction outDirection = DirectionFromVector(output[2], output[3]);
+
+            outIsLeaving = outDirection == Direction.None ? false : true;
 
             return new Decision(outIsLeaving, outDirection, outPopulationToMove);
         }
@@ -81,8 +84,8 @@ namespace PopulationWars.Components.Governments
 
         private double[] SimplifyEnvironment(Map.Environment env)
         {
-            int size = (int)Math.Sqrt(env.Size);
-            int center = (size - 1) / 2;
+            int size = env.Size*2 + 1;
+            int center = env.Size;
             double[] sides = new double[4];
             Nation nation = env.Map[center][center].OwnedBy.Nation;
 
@@ -153,5 +156,7 @@ namespace PopulationWars.Components.Governments
                     return new double[] { 0,  0 };
             }
         }
+
+        public override string ToString() => "AForgeNetwork";
     }
 }
